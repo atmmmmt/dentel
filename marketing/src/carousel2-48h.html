@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Prootech — عيادتك أونلاين خلال 48 ساعة</title>
+<link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="carousel.css">
+<style>
+  body { overflow: auto; }
+  .clock { position: relative; display: flex; align-items: center; gap: 0; margin-top: 70px; direction: ltr; }
+  .clock .node { width: 150px; text-align: center; }
+  .clock .dot { width: 60px; height: 60px; margin: 0 auto; border-radius: 50%; background: rgba(255,255,255,.1); box-shadow: inset 0 0 0 3px rgba(255,255,255,.25); }
+  .clock .dot.on { background: var(--teal); box-shadow: 0 0 0 10px rgba(31,166,166,.22); }
+  .clock .lbl { font-family: var(--en); font-weight: 700; font-size: 32px; margin-top: 18px; color: rgba(255,255,255,.75); }
+  .clock .line { flex: 1; height: 4px; background: linear-gradient(90deg, var(--teal), rgba(127,224,218,.25)); margin-bottom: 52px; }
+  .hour { position: relative; font-family: var(--en); font-weight: 700; font-size: 34px; color: var(--teal); margin-top: 40px; direction: ltr; text-align: right; }
+  .site { position: relative; margin-top: 50px; border-radius: 36px; overflow: hidden; background: #fff; box-shadow: 0 30px 80px -30px rgba(11,42,64,.3); }
+  .site .bar { height: 70px; background: #F1F5F9; display: flex; align-items: center; gap: 12px; padding: 0 26px; direction: ltr; }
+  .site .bar i { width: 16px; height: 16px; border-radius: 50%; display: block; }
+  .site .bar span { flex: 1; margin-left: 14px; height: 44px; border-radius: 14px; background: #fff; font-family: var(--en); font-weight: 600; font-size: 24px; color: var(--navy); display: flex; align-items: center; padding: 0 18px; }
+  .site .body { padding: 40px 44px; background: linear-gradient(180deg, #F3EEE6, #fff); color: #221A12; }
+  .site .body small { font-size: 26px; color: var(--gold); font-weight: 700; }
+  .site .body b { display: block; font-size: 56px; line-height: 1.3; margin-top: 6px; }
+  .site .swatches { display: flex; gap: 14px; margin-top: 26px; }
+  .site .swatches i { width: 56px; height: 56px; border-radius: 16px; display: block; }
+  .okrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 38px; font-weight: 600; padding: 24px 0; }
+  .okrow + .okrow { border-top: 2px dashed rgba(148,163,184,.35); }
+  .okrow .v { font-size: 28px; font-weight: 700; color: #047857; background: #D1FAE5; padding: 10px 22px; border-radius: 999px; white-space: nowrap; }
+  .okrow .en-v { font-family: var(--en); direction: ltr; }
+  .price { position: relative; margin-top: 60px; display: flex; align-items: baseline; gap: 26px; }
+  .price .n { font-family: var(--en); font-weight: 700; font-size: 190px; line-height: .9; }
+  .price .t { font-size: 50px; font-weight: 600; color: rgba(255,255,255,.8); line-height: 1.4; }
+  .price .t s { color: rgba(255,255,255,.45); }
+</style>
+</head>
+<body>
+
+<!-- 1 Cover -->
+<section class="slide dark bg-hero">
+  <div class="grid"></div><div class="glow" style="width:800px;height:600px;background:rgba(31,166,166,.3);top:-220px;left:140px"></div>
+  <div class="top"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">1/6</span></div>
+  <span class="eyebrow gold" style="box-shadow:none">أول اشتراك: <span class="en">13</span> شهراً بسعر <span class="en">12</span></span>
+  <h1 class="h xl">عيادتك أونلاين<br><span class="grad-text">خلال 48 ساعة</span></h1>
+  <p class="p">من الاتفاق إلى أول حجز يصلك — خطوة بخطوة، ونحن نتولّى الجانب التقني بالكامل.</p>
+  <div class="clock">
+    <div class="node"><div class="dot on"></div><div class="lbl">0h</div></div><div class="line"></div>
+    <div class="node"><div class="dot on"></div><div class="lbl">24h</div></div><div class="line"></div>
+    <div class="node"><div class="dot on"></div><div class="lbl">36h</div></div><div class="line"></div>
+    <div class="node"><div class="dot on"></div><div class="lbl">48h</div></div>
+  </div>
+  <div class="foot"><span>Prootech · Dental Clinic Pro</span><span class="swipe">شاهد الخطوات <b>←</b></span></div>
+</section>
+
+<!-- 2 Call -->
+<section class="slide light">
+  <div class="top"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">2/6</span></div>
+  <span class="eyebrow">الخطوة 1 — مكالمة تعارف</span>
+  <div class="hour">0h</div>
+  <h2 class="h" style="margin-top:10px">15 دقيقة نفهم فيها<br>عيادتك جيداً</h2>
+  <div class="box">
+    <div class="li"><span class="ic">🪑</span>عدد الكراسي والأطباء</div>
+    <div class="li"><span class="ic">🦷</span>الخدمات والأسعار</div>
+    <div class="li"><span class="ic">👥</span>الفريق وصلاحيات كل شخص</div>
+    <div class="li"><span class="ic">🕘</span>أوقات الدوام والإجازات</div>
+  </div>
+  <div class="foot"><span>لا تحتاج أي خبرة تقنية</span><span class="swipe">التالي <b>←</b></span></div>
+</section>
+
+<!-- 3 Identity -->
+<section class="slide light">
+  <div class="top"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">3/6</span></div>
+  <span class="eyebrow">الخطوة 2 — نجهّز هويتك</span>
+  <div class="hour">0h → 24h</div>
+  <h2 class="h" style="margin-top:10px">موقع ونظام بشعارك<br>وألوانك أنت</h2>
+  <div class="site">
+    <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span>🔒 dr-yourname.com</span></div>
+    <div class="body"><small>عيادة تجميل وزراعة الأسنان</small><b>ابتسامتك تبدأ هنا</b>
+      <div class="swatches"><i style="background:#221A12"></i><i style="background:#B8945B"></i><i style="background:#F3EEE6"></i><i style="background:#1FA6A6"></i></div></div>
+  </div>
+  <p class="p">الخدمات، الأسعار، صور قبل/بعد، والأسئلة الشائعة — كلها جاهزة.</p>
+  <div class="foot"><span>هوية عيادتك</span><span class="swipe">التالي <b>←</b></span></div>
+</section>
+
+<!-- 4 Connect -->
+<section class="slide light">
+  <div class="top"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">4/6</span></div>
+  <span class="eyebrow">الخطوة 3 — الربط</span>
+  <div class="hour">24h → 36h</div>
+  <h2 class="h" style="margin-top:10px">نربط كل شيء…<br>ونفحصه بأنفسنا</h2>
+  <div class="box">
+    <div class="okrow"><span>الدومين باسمك</span><span class="v en-v">dr-yourname.com ✓</span></div>
+    <div class="okrow"><span>شهادة الأمان SSL</span><span class="v">مفعّلة ✓</span></div>
+    <div class="okrow"><span>واتساب العيادة للتذكير</span><span class="v">مربوط ✓</span></div>
+    <div class="okrow"><span>شاشة غرفة الانتظار</span><span class="v">جاهزة ✓</span></div>
+  </div>
+  <div class="foot"><span>ليس لديك دومين؟ نحجزه لك</span><span class="swipe">التالي <b>←</b></span></div>
+</section>
+
+<!-- 5 Launch -->
+<section class="slide light">
+  <div class="top"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">5/6</span></div>
+  <span class="eyebrow">الخطوة 4 — تدريب وانطلاق</span>
+  <div class="hour">36h → 48h</div>
+  <h2 class="h" style="margin-top:10px">فريقك يتقن النظام…<br>وأول حجز يصلك 🎉</h2>
+  <div class="box">
+    <div class="li"><span class="ic">🎓</span>جلسة تدريب للطبيب والسكرتيرة</div>
+    <div class="li"><span class="ic">📲</span>تثبيت التطبيق على الموبايل والكمبيوتر</div>
+    <div class="li"><span class="ic">📶</span>يعمل حتى عند انقطاع الإنترنت</div>
+    <div class="li"><span class="ic">🤝</span>دعم فني مستمر بعد الانطلاق</div>
+  </div>
+  <div class="foot"><span>الانطلاق</span><span class="swipe">العرض <b>←</b></span></div>
+</section>
+
+<!-- 6 Offer -->
+<section class="slide dark bg-hero" style="justify-content:center">
+  <div class="grid"></div><div class="glow" style="width:820px;height:620px;background:rgba(31,166,166,.35);bottom:-200px;left:130px"></div>
+  <div class="top" style="position:absolute;top:96px;inset-inline:90px"><span class="mini-brand"><i>✚</i>Prootech</span><span class="count">6/6</span></div>
+  <span class="eyebrow">عرض الاشتراك الأول</span>
+  <div class="price"><span class="n grad-text">13</span><span class="t">شهراً<br>وتدفع ثمن <span class="en">12</span> فقط</span></div>
+  <div class="box" style="margin-top:50px;padding:24px 44px">
+    <div class="li"><span class="ic">💵</span>دفع نقدي — دون بطاقة</div>
+    <div class="li"><span class="ic">🔔</span>تذكير قبل التجديد بشهر</div>
+    <div class="li"><span class="ic">✨</span>كل الميزات والتحديثات مشمولة</div>
+  </div>
+  <span class="cta" style="margin-top:50px">احجز موعد التجهيز ←</span>
+  <div class="foot"><span>جاهز خلال 48 ساعة</span><span>احفظ المنشور 🔖</span></div>
+</section>
+
+</body>
+</html>

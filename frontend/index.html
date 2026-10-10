@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B2A40" />
+    <title>نظام عيادة الأسنان الاحترافي | Prootech</title>
+    <meta name="description" content="نظام متكامل لعيادات الأسنان: موقع باسمك وحجز أونلاين، ملفات مرضى بمخطط أسنان ثلاثي الأبعاد، مالية، تذكير واتساب وشاشة غرفة انتظار." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // شيم لبيئات المعاينة المخفية فقط (يُفعَّل بفلاغ يدوي في localStorage):
+      // يُبقي rAF وResizeObserver يعملان في التبويبات المخفية حتى يمكن
+      // اختبار مشاهد WebGL. لا تأثير على المستخدم الفعلي.
+      (function () {
+        if (localStorage.getItem('__preview_shims') !== '1') return;
+        Object.defineProperty(document, 'visibilityState', { get: function() { return 'visible'; } });
+        Object.defineProperty(document, 'hidden', { get: function() { return false; } });
+        var style = document.createElement('style');
+        style.textContent = 'body { min-width: 800px !important; }';
+        document.head.appendChild(style);
+        window.requestAnimationFrame = function (cb) {
+          return setTimeout(function () { cb(performance.now()); }, 33);
+        };
+        var NativeRO = window.ResizeObserver;
+        window.ResizeObserver = function (cb) {
+          var ro = new NativeRO(cb);
+          var origObserve = ro.observe.bind(ro);
+          ro.observe = function (el, opts) {
+            origObserve(el, opts);
+            setTimeout(function () {
+              var r = el.getBoundingClientRect();
+              var w = r.width || el.offsetWidth || el.clientWidth || 560;
+              var h = r.height || el.offsetHeight || el.clientHeight || 380;
+              cb([{ target: el, contentRect: { x: 0, y: 0, width: w, height: h, top: 0, right: w, bottom: h, left: 0 },
+                borderBoxSize: [{ inlineSize: w, blockSize: h }],
+                contentBoxSize: [{ inlineSize: w, blockSize: h }] }], ro);
+            }, 100);
+          };
+          return ro;
+        };
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

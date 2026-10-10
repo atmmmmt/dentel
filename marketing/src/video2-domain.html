@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Prootech — اسمك على الإنترنت</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .stage { width: 1080px; height: 1920px; }
+  .scene { position: absolute; inset: 0; }
+  .head { position: absolute; top: 300px; inset-inline: 80px; text-align: center; }
+  h1 { font-size: 88px; line-height: 1.32; font-weight: 700; }
+  .sub { font-size: 42px; color: rgba(255,255,255,.7); margin-top: 26px; }
+  /* Google-like search */
+  .search { position: absolute; top: 760px; left: 90px; right: 90px; height: 140px; border-radius: 70px; background: #fff; display: flex; align-items: center; gap: 26px; padding: 0 48px; color: #1f2937; font-size: 46px; box-shadow: 0 40px 90px -30px rgba(0,0,0,.6); }
+  .search .ic { font-size: 50px; color: #94a3b8; }
+  .caret { display: inline-block; width: 4px; height: 56px; background: var(--teal); margin-inline-start: 4px; vertical-align: middle; }
+  /* Browser */
+  .browser { position: absolute; top: 560px; left: 70px; right: 70px; border-radius: 40px; overflow: hidden; background: #fff; box-shadow: 0 60px 140px -30px rgba(0,0,0,.7); }
+  .bar { height: 110px; background: #F1F5F9; display: flex; align-items: center; gap: 18px; padding: 0 34px; direction: ltr; }
+  .bar i { width: 22px; height: 22px; border-radius: 50%; display: block; }
+  .url { flex: 1; height: 72px; border-radius: 22px; background: #fff; display: flex; align-items: center; gap: 14px; padding: 0 26px; font-family: var(--en); font-size: 36px; font-weight: 600; color: var(--navy); box-shadow: inset 0 0 0 2px #E2E8F0; }
+  .url .lock { color: #059669; font-size: 32px; }
+  .url .pre { color: #94a3b8; font-weight: 500; }
+  .site { position: relative; height: 900px; background: linear-gradient(180deg, #F3EEE6 0%, #fff 60%); padding: 60px 64px; color: #221A12; }
+  .site-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 70px; }
+  .site-nav b { font-family: var(--en); font-size: 40px; letter-spacing: .5px; }
+  .site-nav span { font-size: 28px; color: #8A7660; }
+  .eyebrow { font-size: 30px; font-weight: 700; color: var(--gold); }
+  .site h2 { font-size: 84px; line-height: 1.3; margin-top: 14px; }
+  .site p { font-size: 34px; color: #6B5B4A; margin-top: 18px; }
+  .site .book { display: inline-block; margin-top: 40px; background: #221A12; color: #fff; font-size: 34px; font-weight: 700; padding: 26px 48px; border-radius: 22px; }
+  .slots { position: absolute; left: 64px; right: 64px; bottom: 60px; }
+  .slots b { font-size: 34px; }
+  .sgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; direction: ltr; }
+  .slot { text-align: center; font-family: var(--en); font-size: 34px; font-weight: 700; padding: 22px 0; border-radius: 20px; background: #F1F5F9; color: #64748B; }
+  .slot.on { background: var(--teal); color: #fff; }
+  .slot.off { opacity: .35; text-decoration: line-through; }
+  .toast { position: absolute; left: 110px; right: 110px; top: 1610px; display: flex; align-items: center; gap: 24px; background: #fff; color: var(--navy); border-radius: 30px; padding: 30px 36px; font-size: 36px; font-weight: 600; box-shadow: 0 40px 90px -20px rgba(0,0,0,.6); }
+  .toast .ok { width: 70px; height: 70px; border-radius: 50%; background: #10B981; color: #fff; display: grid; place-items: center; font-size: 38px; flex-shrink: 0; }
+  .toast small { display: block; font-size: 28px; color: var(--slate); font-weight: 500; }
+  /* steps */
+  .steps { position: absolute; top: 700px; left: 90px; right: 90px; display: grid; gap: 30px; }
+  .step { display: flex; align-items: center; gap: 30px; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 2px rgba(255,255,255,.1); border-radius: 34px; padding: 36px 40px; }
+  .step .n { width: 96px; height: 96px; border-radius: 28px; background: rgba(31,166,166,.22); color: var(--mint); display: grid; place-items: center; font-family: var(--en); font-weight: 700; font-size: 44px; flex-shrink: 0; }
+  .step b { font-size: 44px; display: block; } .step span { font-size: 32px; color: rgba(255,255,255,.65); }
+  #E { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  #E h3 { font-size: 92px; line-height: 1.3; margin-top: 70px; }
+  #E .domain { margin-top: 50px; font-family: var(--en); font-weight: 700; font-size: 54px; background: #fff; color: var(--navy); padding: 26px 48px; border-radius: 30px; direction: ltr; display: flex; gap: 18px; align-items: center; }
+  #E .btn { margin-top: 70px; font-size: 46px; padding: 40px 70px; }
+  #E p { margin-top: 40px; font-size: 36px; color: rgba(255,255,255,.65); }
+</style>
+</head>
+<body>
+<div class="stage bg-hero">
+  <div class="grid"></div>
+  <div class="glow" style="width:900px;height:620px;background:rgba(31,166,166,.32);top:-180px;left:90px"></div>
+
+  <section class="scene" id="A">
+    <div class="head"><h1 id="a1">مرضاك يبحثون عنك</h1><h1 class="grad-text" id="a2">هل يجدونك؟</h1></div>
+    <div class="search" id="search"><span class="ic">⌕</span><span id="q"></span><span class="caret" id="caret"></span></div>
+    <p class="sub" id="a3" style="position:absolute;top:960px;inset-inline:80px;text-align:center">بدون موقع… يذهب المريض لعيادة أخرى.</p>
+  </section>
+
+  <section class="scene" id="B">
+    <div class="head" style="top:250px"><h1 id="b1" style="font-size:80px">موقعك على اسمك أنت</h1></div>
+    <div class="browser" id="browser">
+      <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
+        <div class="url"><span class="lock">🔒</span><span class="pre">https://</span><span id="url"></span></div></div>
+      <div class="site" id="site">
+        <div class="site-nav"><b>Dr. Ahmed</b><span>الخدمات · المعرض · تواصل</span></div>
+        <div class="eyebrow">عيادة تجميل وزراعة الأسنان</div>
+        <h2>ابتسامتك<br>تبدأ هنا</h2>
+        <p>احجز موعدك خلال دقيقة واحدة — دون اتصال.</p>
+        <span class="book" id="bookbtn">احجز موعدك الآن</span>
+        <div class="slots" id="slots"><b>اختر الوقت — الخميس</b>
+          <div class="sgrid"><span class="slot">4:00</span><span class="slot">4:30</span><span class="slot" id="pick">5:00</span><span class="slot">5:30</span><span class="slot off">6:00</span><span class="slot">6:30</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="toast" id="toast"><span class="ok">✓</span><span>تم الحجز — الخميس <span class="en">5:00</span><small>وصل التأكيد للمريض على واتساب</small></span></div>
+  </section>
+
+  <section class="scene" id="C">
+    <div class="head" style="top:300px"><h1 id="c1" style="font-size:80px">الربط؟ أسهل مما تتخيّل</h1></div>
+    <div class="steps">
+      <div class="step" id="s1"><span class="n">1</span><div><b>تختار اسم الدومين</b><span>أو نحجزه لك</span></div></div>
+      <div class="step" id="s2"><span class="n">2</span><div><b>سجلّ واحد — أو نربطه عنك</b><span>معالج ربط باللغة العربية</span></div></div>
+      <div class="step" id="s3"><span class="n">3</span><div><b>موقعك يعمل بقفل الأمان</b><span>فحص تلقائي وشهادة SSL مجانية</span></div></div>
+    </div>
+  </section>
+
+  <section class="scene" id="E" style="opacity:0">
+    <div class="brand" id="eb"><div class="brand-mark"><svg class="i" viewBox="0 0 24 24" style="font-size:38px;color:#fff"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div><div style="text-align:left"><div class="brand-name">Prootech</div><div class="brand-sub">Dental Clinic Pro</div></div></div>
+    <h3 id="e1">دومين باسمك<br><span class="grad-text">وحجز أونلاين 24/7</span></h3>
+    <div class="domain" id="e2"><span style="color:#059669">🔒</span>dr-yourname.com</div>
+    <div class="btn" id="e3">احجز عرضاً مجانياً ←</div>
+    <p id="e4">ضمن نظام Prootech — جاهز خلال 48 ساعة</p>
+  </section>
+</div>
+<script src="timeline.js"></script>
+<script>
+window.DURATION = 16;
+const { $, show, prog, ease, typeText } = TL;
+window.renderFrame = function (t) {
+  const A = 1 - ease.inOut(prog(t, 4.0, .5));
+  $('#A').style.opacity = A;
+  show($('#a1'), t, { start: .1, dur: .6 });
+  show($('#a2'), t, { start: .4, dur: .6 });
+  show($('#search'), t, { start: .8, dur: .6, scale: .1 });
+  typeText($('#q'), 'طبيب أسنان قريب مني', t, 1.3, 11);
+  $('#caret').style.opacity = Math.floor(t * 2.5) % 2 ? 1 : .15;
+  show($('#a3'), t, { start: 3.0, dur: .5 });
+
+  $('#B').style.opacity = ease.out(prog(t, 4.2, .5)) * (1 - ease.inOut(prog(t, 10.6, .5)));
+  show($('#b1'), t, { start: 4.3, dur: .6 });
+  show($('#browser'), t, { start: 4.4, dur: .8, y: 140 });
+  typeText($('#url'), 'dr-ahmed.com', t, 5.0, 12);
+  const loaded = ease.out(prog(t, 6.2, .6));
+  $('#site').style.opacity = .08 + loaded * .92;
+  $('#site').style.filter = `blur(${(1 - loaded) * 10}px)`;
+  const press = prog(t, 7.2, .3);
+  $('#bookbtn').style.transform = `scale(${1 - Math.sin(press * Math.PI) * .07})`;
+  show($('#slots'), t, { start: 7.5, dur: .5 });
+  $('#pick').className = t > 8.4 ? 'slot on' : 'slot';
+  $('#pick').style.transform = `scale(${1 + Math.sin(prog(t, 8.4, .3) * Math.PI) * .12})`;
+  show($('#toast'), t, { start: 8.9, dur: .5, y: 80, scale: .1 });
+
+  $('#C').style.opacity = ease.out(prog(t, 10.8, .5)) * (1 - ease.inOut(prog(t, 13.3, .4)));
+  show($('#c1'), t, { start: 10.9, dur: .5 });
+  ['#s1', '#s2', '#s3'].forEach((id, i) => show($(id), t, { start: 11.2 + i * .45, dur: .5, x: 90, y: 0 }));
+
+  $('#E').style.opacity = ease.out(prog(t, 13.5, .5));
+  show($('#eb'), t, { start: 13.6, dur: .5, scale: .3, y: 0 });
+  show($('#e1'), t, { start: 13.8, dur: .6 });
+  show($('#e2'), t, { start: 14.2, dur: .6, scale: .2 });
+  show($('#e3'), t, { start: 14.6, dur: .6, scale: .2 });
+  show($('#e4'), t, { start: 15.0, dur: .5 });
+};
+</script>
+</body>
+</html>

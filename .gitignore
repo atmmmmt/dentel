@@ -1,0 +1,19 @@
+# dependencies & builds
+node_modules/
+dist/
+build/
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# local archives / tooling
+*.zip
+.claude/
+*.log
+.DS_Store
+Thumbs.db

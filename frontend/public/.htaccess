@@ -1,0 +1,10 @@
+Options -MultiViews
+RewriteEngine On
+
+# Redirect root to Dr. Ayham's clinic
+RewriteRule ^$ /clinic/ayham-darwish [R=302,L]
+
+# SPA fallback
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [QSA,L]

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Prootech — يوم بلا دفتر</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .stage { width: 1080px; height: 1920px; }
+  .scene { position: absolute; inset: 0; }
+  /* Scene A — chaos */
+  #A { background: radial-gradient(110% 70% at 50% 10%, #2A1D24 0%, #140F17 55%, #0B0A10 100%); }
+  #A .head { position: absolute; top: 330px; inset-inline: 80px; text-align: center; }
+  #A h1 { font-size: 92px; line-height: 1.3; font-weight: 700; }
+  #A h1 .muted { color: #FDA4AF; }
+  .alert { position: absolute; display: flex; align-items: center; gap: 22px; padding: 28px 34px; border-radius: 30px; background: #fff; color: #3B1220; font-size: 38px; font-weight: 600; box-shadow: 0 30px 70px -20px rgba(0,0,0,.6); white-space: nowrap; }
+  .alert .dot { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: #FFE4E6; color: #E11D48; font-size: 32px; flex-shrink: 0; }
+  /* Scene B — calm */
+  #B { clip-path: circle(0% at 50% 55%); }
+  #B .head { position: absolute; top: 300px; inset-inline: 80px; text-align: center; }
+  #B h2 { font-size: 78px; line-height: 1.35; font-weight: 700; }
+  .dash { position: absolute; top: 620px; left: 70px; right: 70px; padding: 44px; }
+  .dash-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 34px; }
+  .dash-top small { display: block; font-size: 28px; color: var(--slate); }
+  .dash-top b { font-size: 44px; }
+  .avatar { width: 84px; height: 84px; border-radius: 26px; background: var(--navy); display: grid; place-items: center; color: #fff; font-size: 40px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 30px; }
+  .stat { background: var(--paper); border-radius: 26px; padding: 26px; }
+  .stat .v { font-family: var(--en); font-size: 64px; font-weight: 700; line-height: 1.1; }
+  .stat .l { font-size: 26px; color: var(--slate); }
+  .row { display: flex; align-items: center; gap: 24px; padding: 22px 26px; border-radius: 24px; background: var(--paper); margin-top: 16px; }
+  .row .tm { font-family: var(--en); font-weight: 700; font-size: 32px; width: 110px; }
+  .row .nm { flex: 1; } .row .nm b { display: block; font-size: 32px; } .row .nm span { font-size: 25px; color: var(--slate); }
+  .chip { font-size: 25px; font-weight: 700; padding: 10px 20px; border-radius: 999px; background: #FEF3C7; color: #92400E; }
+  .chip.ok { background: #D1FAE5; color: #047857; }
+  .wa { position: absolute; left: 110px; right: 110px; top: 1330px; background: #ECE5DD; border-radius: 34px; padding: 30px; box-shadow: 0 40px 90px -20px rgba(0,0,0,.6); }
+  .wa-h { display: flex; align-items: center; gap: 18px; background: #075E54; color: #fff; padding: 18px 24px; border-radius: 22px; font-size: 30px; font-weight: 600; margin-bottom: 22px; }
+  .bubble { background: #fff; color: #1f2937; font-size: 31px; line-height: 1.6; padding: 20px 26px; border-radius: 24px; border-top-right-radius: 6px; max-width: 86%; }
+  .bubble.me { background: #DCF8C6; margin-inline-start: auto; border-radius: 24px; border-top-left-radius: 6px; width: fit-content; margin-top: 16px; }
+  .ticks { position: absolute; top: 1540px; left: 110px; right: 110px; display: grid; gap: 24px; }
+  .tick { display: flex; align-items: center; gap: 24px; font-size: 44px; font-weight: 600; }
+  /* Scene C — end card */
+  #C { opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0; }
+  #C h3 { font-size: 96px; line-height: 1.3; font-weight: 700; margin-top: 70px; }
+  #C p { font-size: 44px; color: rgba(255,255,255,.72); margin-top: 26px; }
+  #C .btn { margin-top: 80px; font-size: 46px; padding: 40px 70px; }
+  #C .offer { margin-top: 44px; font-size: 34px; color: #2A1E0E; background: linear-gradient(90deg, var(--gold), var(--gold-2)); padding: 16px 34px; border-radius: 999px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <!-- A: the paper-and-phone clinic -->
+  <section class="scene" id="A">
+    <div class="head"><h1 id="a1">ما زلت تدير عيادتك</h1><h1 class="muted" id="a2">بالدفتر والهاتف؟</h1></div>
+    <div class="alert" id="al1" style="top:760px; right:90px"><span class="dot">!</span>موعدان في نفس الوقت</div>
+    <div class="alert" id="al2" style="top:930px; left:80px"><span class="dot">✕</span>مريض لم يحضر موعده</div>
+    <div class="alert" id="al3" style="top:1100px; right:140px"><span class="dot">?</span>أين صورة الأشعة؟</div>
+    <div class="alert" id="al4" style="top:1270px; left:120px"><span class="dot">$</span>دَين لم يُسجَّل</div>
+    <div class="alert" id="al5" style="top:1440px; right:100px"><span class="dot">☎</span><span><span class="en">32</span> مكالمة حجز اليوم</span></div>
+  </section>
+
+  <!-- B: the same day with Prootech -->
+  <section class="scene bg-hero" id="B">
+    <div class="grid"></div>
+    <div class="glow" style="width:900px;height:600px;background:rgba(31,166,166,.35);top:-200px;left:90px"></div>
+    <div class="head"><h2 id="b1">مع <span class="en">Prootech</span></h2><h2 class="grad-text" id="b2">يومك تحت السيطرة.</h2></div>
+    <div class="card dash" id="dash">
+      <div class="dash-top"><div><small>صباح الخير د. أحمد</small><b>الثلاثاء — <span class="en" id="cnt">14</span> موعداً</b></div><div class="avatar">ن</div></div>
+      <div class="stats">
+        <div class="stat"><div class="v" id="s1">0</div><div class="l">مواعيد اليوم</div></div>
+        <div class="stat"><div class="v" id="s2">0</div><div class="l">مرضى جدد</div></div>
+        <div class="stat"><div class="v"><span id="s3">0</span>%</div><div class="l">نسبة التحصيل</div></div>
+      </div>
+      <div class="row" id="r1"><span class="tm">09:00</span><span class="nm"><b>سارة عبد الرحمن</b><span>تنظيف وتلميع</span></span><span class="chip" id="c1">بالانتظار</span></div>
+      <div class="row" id="r2"><span class="tm">10:30</span><span class="nm"><b>محمد الشمري</b><span>زراعة — المرحلة الثانية</span></span><span class="chip" id="c2">بالانتظار</span></div>
+      <div class="row" id="r3"><span class="tm">11:15</span><span class="nm"><b>ليان أحمد</b><span>ابتسامة هوليود</span></span><span class="chip" id="c3">بالانتظار</span></div>
+    </div>
+    <div class="wa" id="wa">
+      <div class="wa-h"><span>💬</span>عيادة النور — تذكير تلقائي</div>
+      <div class="bubble" id="w1">مرحباً سارة 🌿 نذكّرك بموعدك غداً الساعة <b class="en">9:00</b> مع د. أحمد. للتأكيد أرسلي 1</div>
+      <div class="bubble me" id="w2"><span class="en">1</span> ✅</div>
+    </div>
+    <div class="ticks" id="ticks">
+      <div class="tick" id="t1"><span class="check">✓</span>حجز أونلاين على مدار الساعة</div>
+      <div class="tick" id="t2"><span class="check">✓</span>ملف المريض ومخطط أسنان <span class="en">3D</span></div>
+      <div class="tick" id="t3"><span class="check">✓</span>تذكير واتساب تلقائي</div>
+    </div>
+  </section>
+
+  <!-- C: end card -->
+  <section class="scene bg-hero" id="C">
+    <div class="grid"></div>
+    <div class="glow" style="width:900px;height:700px;background:rgba(31,166,166,.35);top:500px;left:90px"></div>
+    <div class="brand" id="cb" style="position:relative"><div class="brand-mark"><svg class="i" viewBox="0 0 24 24" style="font-size:38px;color:#fff"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div><div style="text-align:left"><div class="brand-name">Prootech</div><div class="brand-sub">Dental Clinic Pro</div></div></div>
+    <h3 id="c_h" style="position:relative">نظام عيادتك الكامل<br><span class="grad-text">جاهز خلال 48 ساعة</span></h3>
+    <p id="c_p" style="position:relative">موقع · حجز · ملفات · مالية · واتساب</p>
+    <div class="btn" id="c_btn" style="position:relative">احجز عرضاً مجانياً ←</div>
+    <div class="offer" id="c_offer" style="position:relative">أول اشتراك: <span class="en">13</span> شهراً بسعر <span class="en">12</span></div>
+  </section>
+</div>
+<script src="timeline.js"></script>
+<script>
+window.DURATION = 18;
+const { $, show, prog, ease, countUp, clamp } = TL;
+window.renderFrame = function (t) {
+  // Scene A
+  show($('#a1'), t, { start: .15, dur: .6, y: 60 });
+  show($('#a2'), t, { start: .45, dur: .6, y: 60 });
+  ['#al1', '#al2', '#al3', '#al4', '#al5'].forEach((id, i) => {
+    const el = $(id); const s = .9 + i * .36;
+    show(el, t, { start: s, dur: .45, y: 0, scale: .4 });
+    const wob = Math.sin((t - s) * 9 + i) * 2.2 * clamp((t - s) * 2);
+    el.style.transform += ` rotate(${(i % 2 ? -1 : 1) * (2 + wob)}deg)`;
+  });
+  // Circle wipe A → B
+  const w = ease.inOut(prog(t, 3.3, .8));
+  $('#B').style.clipPath = `circle(${w * 130}% at 50% 55%)`;
+  // Scene B
+  show($('#b1'), t, { start: 3.8, dur: .6 });
+  show($('#b2'), t, { start: 4.0, dur: .6 });
+  show($('#dash'), t, { start: 4.4, dur: .8, y: 120, end: 13.2, out: .5 });
+  countUp($('#s1'), 14, t, 4.9, 1.2);
+  countUp($('#s2'), 6, t, 5.0, 1.2);
+  countUp($('#s3'), 92, t, 5.1, 1.4);
+  ['#r1', '#r2', '#r3'].forEach((id, i) => show($(id), t, { start: 5.2 + i * .2, dur: .5, x: -80, y: 0 }));
+  ['#c1', '#c2', '#c3'].forEach((id, i) => {
+    const on = t > 8.3 + i * .35; const el = $(id);
+    el.textContent = on ? 'مؤكد ✓' : 'بالانتظار'; el.className = on ? 'chip ok' : 'chip';
+    const p = prog(t, 8.3 + i * .35, .3); el.style.transform = `scale(${1 + Math.sin(p * Math.PI) * .18})`;
+  });
+  show($('#wa'), t, { start: 6.6, dur: .6, y: 160, end: 9.6, out: .5 });
+  show($('#w1'), t, { start: 6.9, dur: .5, y: 20 });
+  show($('#w2'), t, { start: 7.9, dur: .4, y: 20, scale: .3 });
+  show($('#ticks'), t, { start: 10.0, dur: .2, y: 0, end: 13.2, out: .5 });
+  ['#t1', '#t2', '#t3'].forEach((id, i) => show($(id), t, { start: 10.0 + i * .45, dur: .5, x: 80, y: 0 }));
+  show($('#b1'), t, { start: 3.8, dur: .6, end: 13.2 }); show($('#b2'), t, { start: 4.0, dur: .6, end: 13.2 });
+  // Scene C
+  $('#C').style.opacity = ease.out(prog(t, 13.3, .6));
+  show($('#cb'), t, { start: 13.6, dur: .6, scale: .3, y: 0 });
+  show($('#c_h'), t, { start: 13.9, dur: .7 });
+  show($('#c_p'), t, { start: 14.3, dur: .6 });
+  show($('#c_btn'), t, { start: 14.7, dur: .6, scale: .2 });
+  show($('#c_offer'), t, { start: 15.1, dur: .6 });
+  const pulse = 1 + Math.max(0, Math.sin((t - 15.5) * 4)) * .03 * (t > 15.5);
+  $('#c_btn').style.transform += ` scale(${pulse})`;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* Prootech brand tokens — identical to the landing page design system. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap');
+
+:root {
+  --ink: #061626;
+  --navy: #0B2A40;
+  --navy-2: #123B57;
+  --teal: #1FA6A6;
+  --teal-2: #22B5B1;
+  --mint: #7FE0DA;
+  --mint-wash: #E3F6F5;
+  --gold: #B8945B;
+  --gold-2: #E3C48D;
+  --paper: #F5F8FA;
+  --slate: #64748B;
+  --rose: #F43F5E;
+  --ar: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+  --en: 'Inter', 'IBM Plex Sans Arabic', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--ink); }
+body { font-family: var(--ar); direction: rtl; -webkit-font-smoothing: antialiased; overflow: hidden; }
+.en { font-family: var(--en); }
+.stage { position: relative; overflow: hidden; color: #fff; }
+.bg-hero { background: radial-gradient(120% 75% at 50% -5%, #134A66 0%, #0A2236 45%, #061626 100%); }
+.grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 35%, #000 25%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 35%, #000 25%, transparent 100%);
+}
+.glow { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+.grad-text { background: linear-gradient(90deg, #7FE0DA, #2CC5BE 45%, #E3C48D); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.brand { display: flex; align-items: center; gap: 18px; }
+.brand-mark { width: 72px; height: 72px; border-radius: 22px; display: grid; place-items: center; background: linear-gradient(135deg, #2CC5BE, #137F7F); box-shadow: 0 16px 40px -10px rgba(31,166,166,.6); }
+.brand-name { font-family: var(--en); font-weight: 700; font-size: 34px; line-height: 1; color: #fff; }
+.brand-sub { font-family: var(--en); font-weight: 500; font-size: 18px; color: rgba(255,255,255,.55); margin-top: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 12px; border-radius: 999px; padding: 14px 26px; font-weight: 600; }
+.pill-glass { background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.16); color: #9BEDE7; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 14px; border-radius: 28px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #22B5B1, #168B8B); box-shadow: 0 24px 60px -14px rgba(31,166,166,.75), inset 0 2px 0 rgba(255,255,255,.25); }
+.card { background: #fff; border-radius: 36px; color: var(--navy); box-shadow: 0 50px 120px -30px rgba(0,0,0,.55); }
+.check { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--teal); color: #fff; flex-shrink: 0; }
+svg.i { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }

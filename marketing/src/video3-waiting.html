@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Prootech — غرفة انتظار VIP</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .stage { width: 1080px; height: 1920px; }
+  .scene { position: absolute; inset: 0; }
+  .head { position: absolute; top: 300px; inset-inline: 80px; text-align: center; }
+  h1 { font-size: 90px; line-height: 1.32; font-weight: 700; }
+  .sub { font-size: 42px; color: rgba(255,255,255,.7); margin-top: 24px; }
+  /* TV */
+  .tv { position: absolute; top: 700px; left: 50px; right: 50px; }
+  .tv-frame { background: #05090E; border-radius: 26px; padding: 16px; box-shadow: 0 70px 140px -30px rgba(0,0,0,.8), inset 0 0 0 2px #1c2733; }
+  .screen { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #0B1E2E; padding: 34px; display: flex; gap: 26px; }
+  .screen .halo { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: rgba(31,166,166,.3); filter: blur(90px); top: -200px; right: -120px; }
+  .callbox { position: relative; flex: 1; border-radius: 20px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.1); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; }
+  .callbox .lbl { font-size: 24px; color: var(--mint); display: flex; align-items: center; gap: 10px; }
+  .callbox .who small { font-size: 22px; color: rgba(255,255,255,.55); display: block; }
+  .callbox .who b { font-size: 64px; line-height: 1.25; display: block; }
+  .callbox .who span { font-size: 24px; color: rgba(255,255,255,.65); }
+  .num { width: fit-content; background: var(--teal); padding: 8px 20px; border-radius: 999px; font-size: 22px; font-weight: 700; }
+  .queue { position: relative; width: 36%; display: flex; flex-direction: column; gap: 12px; }
+  .queue p { font-size: 22px; font-weight: 700; color: rgba(255,255,255,.75); }
+  .q { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 14px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.1); font-size: 22px; }
+  .q span { font-family: var(--en); color: rgba(255,255,255,.45); }
+  .offer { margin-top: auto; border-radius: 14px; padding: 12px 16px; background: linear-gradient(90deg, var(--gold), var(--gold-2)); color: #2A1E0E; font-weight: 700; font-size: 20px; }
+  .stand { width: 240px; height: 22px; margin: 0 auto; background: #0e151d; border-radius: 0 0 16px 16px; }
+  .ring { position: absolute; inset: 0; border-radius: 20px; box-shadow: 0 0 0 4px var(--mint); pointer-events: none; }
+  /* phone */
+  .phone { position: absolute; width: 380px; left: 90px; top: 1290px; border-radius: 56px; background: #0B1824; padding: 14px; box-shadow: 0 50px 100px -20px rgba(0,0,0,.7); }
+  .phone-in { border-radius: 44px; background: #fff; color: var(--navy); padding: 46px 28px 32px; }
+  .phone-in small { font-size: 22px; color: var(--slate); }
+  .phone-in b { display: block; font-size: 32px; margin-top: 4px; }
+  .callbtn { margin-top: 26px; text-align: center; padding: 24px; border-radius: 24px; background: linear-gradient(135deg, #22B5B1, #168B8B); color: #fff; font-size: 30px; font-weight: 700; }
+  .tap { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,.55); border: 4px solid #fff; }
+  .note { position: absolute; right: 90px; top: 1360px; width: 470px; font-size: 40px; line-height: 1.6; font-weight: 600; }
+  .note em { font-style: normal; color: var(--mint); }
+  .pills { position: absolute; top: 1330px; inset-inline: 80px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .pills .pill { font-size: 38px; padding: 22px 34px; }
+  #E { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  #E h3 { font-size: 90px; line-height: 1.3; margin-top: 70px; }
+  #E p { margin-top: 30px; font-size: 40px; color: rgba(255,255,255,.7); }
+  #E .btn { margin-top: 70px; font-size: 46px; padding: 40px 70px; }
+</style>
+</head>
+<body>
+<div class="stage bg-hero">
+  <div class="grid"></div>
+  <div class="glow" style="width:900px;height:620px;background:rgba(31,166,166,.3);top:-200px;left:90px"></div>
+
+  <section class="scene" id="M">
+    <div class="head"><h1 id="h1">غرفة انتظار…</h1><h1 class="grad-text" id="h2">أم تجربة <span class="en">VIP</span>؟</h1></div>
+    <div class="tv" id="tv">
+      <div class="tv-frame"><div class="screen">
+        <div class="halo"></div>
+        <div class="callbox"><div class="ring" id="ring"></div>
+          <span class="lbl">🔔 يرجى التوجّه إلى العيادة</span>
+          <div class="who"><small>المريض التالي</small><b id="name">حسن كريم</b><span id="chair">الكرسي 1 — د. أحمد</span></div>
+          <span class="num" id="num">رقم 06</span>
+        </div>
+        <div class="queue"><p>قائمة الانتظار</p>
+          <div class="q" id="q1"><b>ليان أحمد</b><span>11:15</span></div>
+          <div class="q" id="q2"><b>نور علي</b><span>11:30</span></div>
+          <div class="q" id="q3"><b>زيد سالم</b><span>11:45</span></div>
+          <div class="offer">عرض الشهر: تبييض بخصم 20%</div>
+        </div>
+      </div></div>
+      <div class="stand"></div>
+    </div>
+    <div class="phone" id="phone"><div class="phone-in"><small>لوحة الطبيب</small><b>المريض التالي: ليان</b><div class="callbtn" id="callbtn">📢 نادِ المريض</div></div><div class="tap" id="tap"></div></div>
+    <div class="note" id="note">ضغطة واحدة من الطبيب…<br><em>والشاشة تنادي المريض باسمه</em> مع تنبيه صوتي.</div>
+    <div class="pills" id="pills">
+      <span class="pill pill-glass" id="p1">🔔 نداء بالاسم</span>
+      <span class="pill pill-glass" id="p2">🎬 فيديوهات أعمالك</span>
+      <span class="pill pill-glass" id="p3">🏷️ عروض العيادة</span>
+      <span class="pill pill-glass" id="p4">📺 أي تلفاز ذكي</span>
+    </div>
+  </section>
+
+  <section class="scene" id="E" style="opacity:0">
+    <div class="brand" id="eb"><div class="brand-mark"><svg class="i" viewBox="0 0 24 24" style="font-size:38px;color:#fff"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div><div style="text-align:left"><div class="brand-name">Prootech</div><div class="brand-sub">Dental Clinic Pro</div></div></div>
+    <h3 id="e1">شاشة انتظار<br><span class="grad-text">مشمولة في نظامك</span></h3>
+    <p id="e2">ضمن اشتراك Prootech — بدون أي تكلفة إضافية</p>
+    <div class="btn" id="e3">احجز عرضاً مجانياً ←</div>
+  </section>
+</div>
+<script src="timeline.js"></script>
+<script>
+window.DURATION = 15;
+window.CHIME_AT = 5.2; // used by the renderer for the sound effect
+const { $, show, prog, ease } = TL;
+window.renderFrame = function (t) {
+  const out = 1 - ease.inOut(prog(t, 11.8, .5));
+  $('#M').style.opacity = out;
+  show($('#h1'), t, { start: .1, dur: .6 });
+  show($('#h2'), t, { start: .4, dur: .6 });
+  show($('#tv'), t, { start: .9, dur: .9, y: 120, scale: .08 });
+  show($('#phone'), t, { start: 2.6, dur: .7, y: 120, end: 8.6, out: .5 });
+  show($('#note'), t, { start: 3.0, dur: .6, x: -60, y: 0, end: 8.6, out: .5 });
+  // tap the button
+  const tp = prog(t, 4.4, .7);
+  $('#tap').style.opacity = t > 4.3 && t < 5.4 ? 1 - prog(t, 5.0, .4) : 0;
+  $('#tap').style.left = `${150 - 0 * tp}px`; $('#tap').style.top = `${215 + (1 - ease.out(tp)) * 60}px`;
+  $('#tap').style.transform = `scale(${1 - Math.sin(prog(t, 4.9, .3) * Math.PI) * .25})`;
+  $('#callbtn').style.transform = `scale(${1 - Math.sin(prog(t, 4.9, .3) * Math.PI) * .06})`;
+  // TV switches to the next patient at the chime
+  const called = t >= window.CHIME_AT;
+  $('#name').textContent = called ? 'ليان أحمد' : 'حسن كريم';
+  $('#chair').textContent = called ? 'الكرسي 2 — د. أحمد' : 'الكرسي 1 — د. أحمد';
+  $('#num').textContent = called ? 'رقم 07' : 'رقم 06';
+  const pop = prog(t, window.CHIME_AT, .5);
+  $('#name').style.transform = `scale(${called ? .85 + ease.back(pop) * .15 : 1})`;
+  $('#name').style.transformOrigin = 'right center';
+  const pulse = called ? Math.max(0, Math.sin((t - window.CHIME_AT) * 6)) * (1 - prog(t, window.CHIME_AT + 2.5, .5)) : 0;
+  $('#ring').style.opacity = pulse;
+  ['#q1', '#q2', '#q3'].forEach((id, i) => {
+    const el = $(id);
+    if (i === 0) { const p = ease.inOut(prog(t, window.CHIME_AT, .5)); el.style.opacity = 1 - p; el.style.transform = `translateX(${p * -60}px)`; el.style.marginTop = `${-p * 62}px`; }
+  });
+  show($('#pills'), t, { start: 8.9, dur: .2, y: 0 });
+  ['#p1', '#p2', '#p3', '#p4'].forEach((id, i) => show($(id), t, { start: 9.0 + i * .35, dur: .45, scale: .3, y: 20 }));
+  $('#E').style.opacity = ease.out(prog(t, 12.0, .5));
+  show($('#eb'), t, { start: 12.1, dur: .5, scale: .3, y: 0 });
+  show($('#e1'), t, { start: 12.3, dur: .6 });
+  show($('#e2'), t, { start: 12.7, dur: .5 });
+  show($('#e3'), t, { start: 13.0, dur: .6, scale: .2 });
+};
+</script>
+</body>
+</html>
