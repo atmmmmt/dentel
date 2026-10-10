@@ -1,7 +1,7 @@
 const axios = require('axios');
 const ProductSettings = require('../models/ProductSettings');
 
-const WA_BASE = 'https://api.prootech-cloud.com/v1';
+const { BASE: WA_BASE, toE164 } = require('../services/platformWhatsApp');
 const WA_KEY  = process.env.WA_OTP_KEY || '';
 
 const waHeaders = { 'x-api-key': WA_KEY, 'Content-Type': 'application/json' };
@@ -123,7 +123,7 @@ exports.sendTest = async (req, res) => {
     if (!phoneNumber) return res.status(400).json({ success: false, message: 'رقم الهاتف مطلوب' });
 
     const r = await axios.post(`${WA_BASE}/whatsapp/send`, {
-      phoneNumber,
+      phoneNumber: toE164(phoneNumber),
       message: '✅ اختبار ناجح من منصة Prootech!\n\nالواتساب متصل وجاهز للإرسال 🎉',
     }, { headers: waHeaders, timeout: 15000 });
 

@@ -191,7 +191,7 @@ function WaSessionCard() {
     <Card>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="font-bold" style={{ color: 'var(--color-text)' }}>ربط الواتساب — WaOTP</h3>
+          <h3 className="font-bold" style={{ color: 'var(--color-text)' }}>ربط الواتساب — VAYRO</h3>
           <p className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>
             ربط رقم واتساب Prootech لإرسال الرسائل التلقائية والتنبيهات
           </p>

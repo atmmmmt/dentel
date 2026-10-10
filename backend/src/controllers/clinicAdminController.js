@@ -1,10 +1,10 @@
 const Clinic = require('../models/Clinic');
 const ClinicSettings = require('../models/ClinicSettings');
 const crypto = require('crypto');
-const axios = require('axios');
 const { assignDomain, runDomainCheck } = require('./clinicDashController');
 const { removeDomainFromTunnel } = require('../utils/tunnelManager');
 const { PLATFORM_HOST, requiredRecords } = require('../utils/domain');
+const { sendPlatformMessage } = require('../services/platformWhatsApp');
 
 // ── Helpers ────────────────────────────────────────────────────────
 
@@ -109,20 +109,8 @@ const whatsappLink = (phone, text) => {
   return num ? `https://wa.me/${num}?text=${encodeURIComponent(text)}` : null;
 };
 
-async function sendViaProotechWhatsApp(phone, text) {
-  const base = process.env.WA_SERVER_URL;
-  const key = process.env.WA_SERVER_KEY;
-  const session = process.env.WA_SESSION_ID;
-  const num = String(phone || '').replace(/\D/g, '');
-  if (!base || !session || !num) return false;
-  try {
-    await axios.post(`${base}/api/sendText`, { session, to: `${num}@c.us`, text }, { headers: { 'X-Api-Key': key }, timeout: 8000 });
-    return true;
-  } catch (err) {
-    console.error('Welcome WhatsApp failed:', err.message);
-    return false;
-  }
-}
+// Platform number (VAYRO) — see services/platformWhatsApp.js
+const sendViaProotechWhatsApp = (phone, text) => sendPlatformMessage(phone, text);
 
 function applyActivation(clinic, { activation, billingCycle, packagePrice, trialDays }) {
   const now = new Date();

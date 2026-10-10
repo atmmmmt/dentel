@@ -1,5 +1,5 @@
 const Clinic = require('../models/Clinic');
-const axios = require('axios');
+const { sendPlatformMessage } = require('../services/platformWhatsApp');
 
 // ── Check & update subscription statuses (run periodically) ──────────────
 exports.checkAllSubscriptions = async () => {
@@ -76,21 +76,8 @@ const sendWhatsAppWarning = async (clinic, type) => {
   const msg = messages[type];
   if (!msg) return;
 
-  // Use Prootech's main WhatsApp server (env vars)
-  const apiUrl = process.env.WA_SERVER_URL;
-  const apiKey = process.env.WA_SERVER_KEY;
-  const sessionId = process.env.WA_SESSION_ID;
-  if (!apiUrl || !sessionId) return;
-
-  try {
-    await axios.post(
-      `${apiUrl}/api/sendText`,
-      { session: sessionId, to: `${phone.replace(/\D/g, '')}@c.us`, text: msg },
-      { headers: { 'X-Api-Key': apiKey }, timeout: 8000 }
-    );
-  } catch (err) {
-    console.error('WhatsApp send failed:', err.message);
-  }
+  // Prootech's own number (VAYRO)
+  await sendPlatformMessage(phone, msg);
 };
 
 // ── Renew subscription (admin action) ────────────────────────────────────
