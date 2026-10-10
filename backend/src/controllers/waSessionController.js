@@ -20,76 +20,55 @@ function extractStatus(data) {
   return 'disconnected';
 }
 
+// Live session snapshot from VAYRO (the QR rotates every ~20–60 s, so never serve a stale copy).
+async function liveSnapshot() {
+  const r = await axios.get(`${WA_BASE}/whatsapp/session/status`, { headers: waHeaders, timeout: 15000 });
+  const data = r.data;
+  const status = extractStatus(data);
+  return { status, qr: status === 'ready' ? '' : extractQr(data), phone: data.phoneNumber || data.phone || '', raw: data };
+}
+
+function saveSnapshot(snap) {
+  return ProductSettings.findOneAndUpdate(
+    { singleton: 'main' },
+    { waStatus: snap.status, waConnected: snap.status === 'ready', waQr: snap.qr, ...(snap.phone ? { waPhone: snap.phone } : {}) },
+    { upsert: true }
+  ).catch(() => {});
+}
+
 // ── Start session & get QR ──────────────────────────────────────────
 exports.startSession = async (req, res) => {
   try {
-    const r = await axios.post(`${WA_BASE}/whatsapp/session/start`, {}, { headers: waHeaders, timeout: 15000 });
-    const data = r.data;
-    const qr     = extractQr(data);
-    const status = extractStatus(data);
-
-    await ProductSettings.findOneAndUpdate(
-      { singleton: 'main' },
-      { waStatus: status, waConnected: false, waQr: qr },
-      { upsert: true }
-    );
-
-    res.json({ success: true, qr, status });
-
-    // If no QR yet, fetch status in background and update DB
-    if (!qr) {
-      axios.get(`${WA_BASE}/whatsapp/session/status`, { headers: waHeaders, timeout: 20000 })
-        .then(async r2 => {
-          const qr2 = extractQr(r2.data);
-          const st2 = extractStatus(r2.data);
-          if (qr2) {
-            await ProductSettings.findOneAndUpdate(
-              { singleton: 'main' },
-              { waStatus: st2, waQr: qr2 },
-              { upsert: true }
-            ).catch(() => {});
-          }
-        }).catch(() => {});
+    // A session that is already waiting for a scan (or connected) must NOT be restarted —
+    // restarting invalidates the QR the user is scanning.
+    let snap = await liveSnapshot().catch(() => null);
+    if (!snap || snap.status === 'disconnected') {
+      await axios.post(`${WA_BASE}/whatsapp/session/start`, {}, { headers: waHeaders, timeout: 20000 });
+      for (let i = 0; i < 6; i++) {               // wait up to ~9 s for the first QR
+        snap = await liveSnapshot().catch(() => null);
+        if (snap && (snap.qr || snap.status === 'ready')) break;
+        await new Promise(r => setTimeout(r, 1500));
+      }
     }
+    if (!snap) return res.status(502).json({ success: false, message: 'تعذّر الوصول إلى خادم الواتساب' });
+    saveSnapshot(snap);
+    res.json({ success: true, status: snap.status, qr: snap.qr, phone: snap.phone });
   } catch (err) {
     console.error('[WA start]', err.response?.data || err.message);
     res.status(500).json({ success: false, message: err.response?.data?.message || err.message });
   }
 };
 
-// ── Check session status — returns DB instantly, polls API in background ──
+// ── Check session status (live) ─────────────────────────────────────
 exports.getStatus = async (req, res) => {
-  // 1. Return cached DB value immediately (fast response)
-  const cached = await ProductSettings.findOne({ singleton: 'main' }).catch(() => null);
-  res.json({
-    success:     true,
-    status:      cached?.waStatus     || 'disconnected',
-    qr:          cached?.waQr         || '',
-    phone:       cached?.waPhone      || '',
-    waConnected: cached?.waConnected  || false,
-  });
-
-  // 2. Update DB from external API in background (non-blocking)
-  axios.get(`${WA_BASE}/whatsapp/session/status`, { headers: waHeaders, timeout: 20000 })
-    .then(async r => {
-      const data    = r.data;
-      const qr      = extractQr(data);
-      const status  = extractStatus(data);
-      const phone   = data.phoneNumber || data.phone || '';
-      const isReady = status === 'ready';
-
-      await ProductSettings.findOneAndUpdate(
-        { singleton: 'main' },
-        {
-          waStatus:    status,
-          waConnected: isReady,
-          waQr:        isReady ? '' : (qr || cached?.waQr || ''),
-          ...(phone ? { waPhone: phone } : {}),
-        },
-        { upsert: true }
-      ).catch(() => {});
-    })
-    .catch(err => console.error('[WA status bg]', err.message));
+  try {
+    const snap = await liveSnapshot();
+    saveSnapshot(snap);
+    res.json({ success: true, status: snap.status, qr: snap.qr, phone: snap.phone, waConnected: snap.status === 'ready' });
+  } catch (err) {
+    const cached = await ProductSettings.findOne({ singleton: 'main' }).catch(() => null);
+    res.json({ success: true, stale: true, status: cached?.waStatus || 'disconnected', qr: '', phone: cached?.waPhone || '', waConnected: !!cached?.waConnected });
+  }
 };
 
 // ── Disconnect session ──────────────────────────────────────────────

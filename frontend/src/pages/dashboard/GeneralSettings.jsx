@@ -8,127 +8,79 @@ import toast from 'react-hot-toast';
 import { Wifi, WifiOff, RefreshCw, Send, QrCode, Phone } from 'lucide-react';
 
 // ── WhatsApp Session Card ────────────────────────────────────────────
-const QR_LIFETIME = 600; // seconds before QR expires (10 minutes)
-
+// The QR comes live from VAYRO and rotates every ~20–60 s, so we poll the live status
+// and always display the newest code until the phone is linked.
 function WaSessionCard() {
   const [info, setInfo]           = useState({ waStatus: 'disconnected', waConnected: false, waPhone: '', waQr: '' });
   const [loading, setLoading]     = useState(false);
   const [testPhone, setTestPhone] = useState('');
   const [sending, setSending]     = useState(false);
-  const [countdown, setCountdown] = useState(0); // QR expiry countdown
-  const pollRef    = useRef(null);
-  const qrTimerRef = useRef(null);
-  const countRef   = useRef(null);
+  const [countdown, setCountdown] = useState(0); // seconds since the current QR appeared
+  const pollRef  = useRef(null);
+  const countRef = useRef(null);
+  const lastQr   = useRef('');
 
-  const clearAll = () => {
-    clearInterval(pollRef.current);
-    clearTimeout(qrTimerRef.current);
-    clearInterval(countRef.current);
+  const clearAll = () => { clearInterval(pollRef.current); clearInterval(countRef.current); };
+
+  const apply = (d, { notify = false } = {}) => {
+    if (!d) return;
+    if (d.qr && d.qr !== lastQr.current) { lastQr.current = d.qr; setCountdown(0); }
+    setInfo(prev => ({
+      ...prev,
+      waStatus: d.status || prev.waStatus,
+      waConnected: d.status === 'ready',
+      waQr: d.status === 'ready' ? '' : (d.qr || prev.waQr),
+      waPhone: d.phone || prev.waPhone,
+    }));
+    if (d.status === 'ready') {
+      clearAll();
+      if (notify) toast.success('✅ تم ربط الواتساب بنجاح!');
+    }
   };
 
-  const loadInfo = async () => {
-    try {
-      const r = await adminApi.waGetInfo();
-      setInfo(r.data);
-    } catch {}
+  const startPolling = () => {
+    clearAll();
+    countRef.current = setInterval(() => setCountdown(c => c + 1), 1000);
+    pollRef.current = setInterval(async () => {
+      try { const r = await adminApi.waStatus(); apply(r.data, { notify: true }); } catch {}
+    }, 4000);
   };
 
   useEffect(() => {
-    loadInfo();
+    (async () => {
+      try {
+        const r = await adminApi.waStatus();
+        apply(r.data);
+        if (r.data.status === 'qr') startPolling();
+      } catch {}
+    })();
     return () => clearAll();
-  }, []);
-
-  // Poll DB every 3s — fast, no timeout risk
-  // Also triggers a background API check via waStatus (non-blocking)
-  const startStatusPoll = () => {
-    clearInterval(pollRef.current);
-    let tick = 0;
-    pollRef.current = setInterval(async () => {
-      tick++;
-      try {
-        // Every 3 ticks (~9s) trigger a background API refresh
-        if (tick % 3 === 0) {
-          adminApi.waStatus().catch(() => {}); // fire-and-forget
-        }
-        // Always read from DB (fast)
-        const r = await adminApi.waGetInfo();
-        const newStatus = r.data.waStatus;
-        setInfo(prev => ({
-          ...prev,
-          ...r.data,
-          waQr: r.data.waQr || prev.waQr, // keep QR if DB cleared it temporarily
-        }));
-        if (newStatus === 'ready') {
-          clearAll();
-          setCountdown(0);
-          toast.success('✅ تم ربط الواتساب بنجاح!');
-        }
-      } catch {}
-    }, 3000);
-  };
-
-  // Auto-refresh QR before it expires (every 18s)
-  const startQrRefresh = () => {
-    // Countdown timer
-    setCountdown(QR_LIFETIME);
-    clearInterval(countRef.current);
-    countRef.current = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) return 0;
-        return prev - 1;
-      });
-    }, 1000);
-
-    // Refresh QR before expiry
-    clearTimeout(qrTimerRef.current);
-    qrTimerRef.current = setTimeout(async () => {
-      try {
-        const r = await adminApi.waStart();
-        if (r.data.qr) {
-          setInfo(prev => ({ ...prev, waQr: r.data.qr, waStatus: 'qr' }));
-          startQrRefresh(); // restart countdown
-        }
-      } catch {}
-    }, 570000); // refresh at 9.5 minutes
-  };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStart = async () => {
-    clearAll();
     setLoading(true);
     try {
       const r = await adminApi.waStart();
-      setInfo(prev => ({ ...prev, waStatus: r.data.status, waQr: r.data.qr, waConnected: false }));
-      if (r.data.qr) {
-        startStatusPoll();
-        startQrRefresh();
-      } else {
-        toast('⏳ جاري تحضير الـ QR، اضغط "تحديث QR" بعد ثانية');
-      }
+      apply(r.data, { notify: true });
+      if (r.data.status !== 'ready') startPolling();
+      if (!r.data.qr && r.data.status !== 'ready') toast('⏳ جاري تحضير الـ QR…');
     } catch (e) {
-      toast.error(e.response?.data?.message || 'فشل الاتصال بالخادم');
+      toast.error(e.response?.data?.message || 'فشل الاتصال بخادم الواتساب');
     } finally {
       setLoading(false);
     }
   };
 
+  // Fetch the newest QR without restarting the session.
   const handleForceRefreshQr = async () => {
-    clearAll();
     setLoading(true);
     try {
-      const r = await adminApi.waStart();
-      if (r.data.qr) {
-        setInfo(prev => ({ ...prev, waQr: r.data.qr, waStatus: 'qr' }));
-        startStatusPoll();
-        startQrRefresh();
-        toast.success('تم تجديد الـ QR');
-      } else {
-        // try status
-        const r2 = await adminApi.waStatus();
-        setInfo(prev => ({ ...prev, ...r2.data }));
-        if (r2.data.qr) startQrRefresh();
-      }
+      const r = await adminApi.waStatus();
+      apply(r.data, { notify: true });
+      if (r.data.status === 'disconnected') await handleStart();
+      else toast.success('تم تحديث الـ QR');
     } catch {
-      toast.error('فشل تجديد الـ QR');
+      toast.error('فشل تحديث الـ QR');
     } finally {
       setLoading(false);
     }
@@ -136,10 +88,10 @@ function WaSessionCard() {
 
   const handleDisconnect = async () => {
     clearAll();
-    setCountdown(0);
     setLoading(true);
     try {
       await adminApi.waDisconnect();
+      lastQr.current = '';
       setInfo({ waStatus: 'disconnected', waConnected: false, waPhone: '', waQr: '' });
       toast.success('تم فصل الجلسة');
     } catch {
@@ -151,19 +103,10 @@ function WaSessionCard() {
 
   const handleCheckStatus = async () => {
     setLoading(true);
-    // Trigger background API check
-    adminApi.waStatus().catch(() => {});
-    // Wait a moment then read from DB
-    await new Promise(r => setTimeout(r, 2500));
     try {
-      const r = await adminApi.waGetInfo();
-      setInfo(prev => ({ ...prev, ...r.data, waQr: r.data.waQr || prev.waQr }));
-      if (r.data.waStatus === 'ready') {
-        clearAll(); setCountdown(0);
-        toast.success('✅ الواتساب متصل!');
-      } else {
-        toast(`الحالة الحالية: ${r.data.waStatus || 'غير معروف'}`);
-      }
+      const r = await adminApi.waStatus();
+      apply(r.data, { notify: true });
+      if (r.data.status !== 'ready') toast(`الحالة الحالية: ${r.data.status === 'qr' ? 'بانتظار المسح' : 'غير متصل'}`);
     } catch {
       toast.error('فشل التحقق');
     } finally {
@@ -221,46 +164,23 @@ function WaSessionCard() {
             📱 افتح واتساب ← الأجهزة المرتبطة ← ربط جهاز
           </p>
           <p className="text-xs mb-3" style={{ color: 'var(--color-muted)' }}>
-            امسح الكود بالكاميرا — يتجدد تلقائياً قبل انتهاء الصلاحية
+            امسح الكود بالكاميرا مباشرة من هذه الشاشة
           </p>
 
           {/* QR Image */}
           <div className="relative">
             {info.waQr.startsWith('data:') || info.waQr.startsWith('http') ? (
-              <img src={info.waQr} alt="QR Code" className="w-52 h-52 rounded-xl shadow-lg" />
+              <img src={info.waQr} alt="QR Code" className="h-64 w-64 rounded-xl bg-white p-2 shadow-lg" style={{ imageRendering: "pixelated" }} />
             ) : (
-              <img src={`data:image/png;base64,${info.waQr}`} alt="QR Code" className="w-52 h-52 rounded-xl shadow-lg" />
-            )}
-            {/* Countdown overlay */}
-            {countdown > 0 && countdown <= 60 && (
-              <div className="absolute inset-0 rounded-xl flex items-center justify-center"
-                style={{ background: 'rgba(0,0,0,0.6)' }}>
-                <div className="text-center text-white">
-                  <div className="text-4xl font-black">{countdown}</div>
-                  <div className="text-xs">يتجدد قريباً</div>
-                </div>
-              </div>
+              <img src={`data:image/png;base64,${info.waQr}`} alt="QR Code" className="h-64 w-64 rounded-xl bg-white p-2 shadow-lg" style={{ imageRendering: "pixelated" }} />
             )}
           </div>
 
-          {/* Countdown bar */}
-          {countdown > 0 && (
-            <div className="w-52 mt-3">
-              <div className="flex justify-between text-xs mb-1" style={{ color: 'var(--color-muted)' }}>
-                <span>صلاحية الكود</span>
-                <span style={{ color: countdown <= 60 ? '#EF4444' : '#F59E0B' }}>
-                  {countdown >= 60 ? `${Math.floor(countdown/60)}:${String(countdown%60).padStart(2,'0')}` : `${countdown}ث`}
-                </span>
-              </div>
-              <div className="h-1.5 rounded-full" style={{ background: 'var(--color-border)' }}>
-                <div className="h-full rounded-full transition-all"
-                  style={{
-                    width: `${(countdown / QR_LIFETIME) * 100}%`,
-                    background: countdown <= 5 ? '#EF4444' : '#F59E0B',
-                  }} />
-              </div>
-            </div>
-          )}
+          {/* Live indicator: the code refreshes from VAYRO automatically */}
+          <p className="mt-3 flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-muted)' }}>
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full" style={{ background: '#10B981' }} />
+            كود مباشر — يتحدّث تلقائياً كل بضع ثوانٍ{countdown > 0 ? ` (آخر تحديث قبل ${countdown} ث)` : ''}
+          </p>
 
           {/* Buttons under QR */}
           <div className="flex gap-2 mt-4">
@@ -286,7 +206,7 @@ function WaSessionCard() {
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white"
             style={{ background: 'var(--color-primary)', opacity: loading ? 0.7 : 1 }}>
             <QrCode size={15} className={loading ? 'animate-pulse' : ''} />
-            {loading ? 'جاري...' : info.waStatus === 'qr' ? 'إعادة بدء الجلسة' : 'بدء الجلسة / الحصول على QR'}
+            {loading ? 'جاري...' : info.waStatus === 'qr' ? 'إظهار الكود' : 'بدء الجلسة / الحصول على QR'}
           </button>
         ) : (
           <button onClick={handleDisconnect} disabled={loading}
