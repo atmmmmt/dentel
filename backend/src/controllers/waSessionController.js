@@ -71,9 +71,24 @@ exports.startSession = async (req, res) => {
 };
 
 // ── Check session status (live) ─────────────────────────────────────
+// Baileys 515 = "restart required". WhatsApp sends it right after a successful scan (and
+// occasionally later); the engine must reconnect with the saved credentials. VAYRO marks the
+// session disconnected instead, so we resume it ourselves — WITHOUT a reset, which would wipe the login.
+async function resumeIfRestartRequired(snap) {
+  if (snap.status !== 'disconnected' || !String(snap.raw?.lastDisconnectReason || '').includes('515')) return snap;
+  await axios.post(`${WA_BASE}/whatsapp/session/start`, {}, { headers: waHeaders, timeout: 20000 }).catch(() => {});
+  for (let i = 0; i < 5; i++) {
+    await new Promise(r => setTimeout(r, 1500));
+    const next = await liveSnapshot().catch(() => null);
+    if (next && next.status !== 'disconnected') return next.status === 'ready' ? next : { ...next, status: 'connecting' };
+  }
+  return { ...snap, status: 'connecting' };
+}
+exports.resumeIfRestartRequired = resumeIfRestartRequired;
+
 exports.getStatus = async (req, res) => {
   try {
-    const snap = await liveSnapshot();
+    const snap = await resumeIfRestartRequired(await liveSnapshot());
     saveSnapshot(snap);
     res.json({ success: true, status: snap.status, qr: snap.qr, phone: snap.phone, waConnected: snap.status === 'ready' });
   } catch (err) {
@@ -138,4 +153,11 @@ exports.getWaInfo = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
+};
+
+// ── Watchdog: keep the platform number online (auto-resume after a 515 restart) ──
+exports.keepAlive = async () => {
+  if (!WA_KEY) return;
+  const snap = await resumeIfRestartRequired(await liveSnapshot());
+  await saveSnapshot(snap);
 };

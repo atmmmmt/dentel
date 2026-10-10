@@ -16,6 +16,10 @@ connectDB().then(() => {
   const { checkAllSubscriptions } = require('./controllers/subscriptionController');
   checkAllSubscriptions().catch(console.error);
   setInterval(() => checkAllSubscriptions().catch(console.error), 6 * 60 * 60 * 1000);
+
+  // Platform WhatsApp (VAYRO): resume the session if WhatsApp asked for a restart
+  const { keepAlive } = require('./controllers/waSessionController');
+  setInterval(() => keepAlive().catch(() => {}), 5 * 60 * 1000);
 });
 
 app.use(helmet({ crossOriginResourcePolicy: false, contentSecurityPolicy: false }));
