@@ -12,7 +12,10 @@ function extractQr(data) {
 }
 
 function extractStatus(data) {
-  const s = data.status || '';
+  const s = String(data.status || '').toLowerCase();
+  // after the scan WhatsApp needs a few seconds to pair — keep the page waiting, don't drop to 'disconnected'
+  if (['authenticated', 'connecting', 'pairing', 'syncing', 'opening', 'loading'].includes(s)) return 'connecting';
+  if (['auth_failure', 'logged_out', 'logout', 'failed'].includes(s)) return 'failed';
   const isReady = s === 'ready' || data.isConnected === true || data.connected === true;
   const hasQr   = s === 'qr_ready' || s === 'qr' || !!extractQr(data);
   if (isReady) return 'ready';
@@ -42,7 +45,15 @@ exports.startSession = async (req, res) => {
     // A session that is already waiting for a scan (or connected) must NOT be restarted —
     // restarting invalidates the QR the user is scanning.
     let snap = await liveSnapshot().catch(() => null);
-    if (!snap || snap.status === 'disconnected') {
+    // A previous link that was logged out leaves stale credentials on the server — WhatsApp rejects
+    // every new scan until they are cleared. Reset first, then ask for a fresh QR.
+    const stale = snap && (snap.status === 'failed' || snap.raw?.lastDisconnectReason === 'LOGOUT') && snap.status !== 'ready' && snap.status !== 'qr';
+    if (stale || req.body?.reset) {
+      await axios.post(`${WA_BASE}/whatsapp/session/disconnect`, {}, { headers: waHeaders, timeout: 15000 }).catch(() => {});
+      await new Promise(r => setTimeout(r, 1500));
+      snap = null;
+    }
+    if (!snap || snap.status === 'disconnected' || snap.status === 'failed') {
       await axios.post(`${WA_BASE}/whatsapp/session/start`, {}, { headers: waHeaders, timeout: 20000 });
       for (let i = 0; i < 6; i++) {               // wait up to ~9 s for the first QR
         snap = await liveSnapshot().catch(() => null);

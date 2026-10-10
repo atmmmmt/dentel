@@ -127,8 +127,8 @@ function WaSessionCard() {
     }
   };
 
-  const statusColor = { ready: '#10B981', qr: '#F59E0B', disconnected: '#EF4444', connecting: '#6366F1' };
-  const statusLabel = { ready: 'متصل ✅', qr: 'في انتظار المسح...', disconnected: 'غير متصل', connecting: 'جاري الاتصال...' };
+  const statusColor = { ready: '#10B981', qr: '#F59E0B', disconnected: '#EF4444', connecting: '#6366F1', failed: '#EF4444' };
+  const statusLabel = { ready: 'متصل ✅', qr: 'في انتظار المسح...', disconnected: 'غير متصل', connecting: 'تم المسح — جاري الربط…', failed: 'فشل الربط' };
 
   return (
     <Card>
@@ -155,6 +155,17 @@ function WaSessionCard() {
       )}
 
       {/* QR Code */}
+      {info.waStatus === 'connecting' && (
+        <div className="mb-5 flex items-center gap-3 rounded-2xl border p-4 text-sm" style={{ borderColor: '#6366F1', color: '#4F46E5', background: '#6366F10D' }}>
+          <RefreshCw size={16} className="animate-spin" />
+          تم مسح الكود — انتظر حتى يكتمل الربط على الموبايل (عادةً أقل من دقيقة). لا تغلق واتساب على الموبايل.
+        </div>
+      )}
+      {info.waStatus === 'failed' && (
+        <div className="mb-5 rounded-2xl border p-4 text-sm leading-7" style={{ borderColor: '#EF4444', color: '#B91C1C', background: '#EF44440D' }}>
+          رفض واتساب الربط (غالباً بسبب جلسة قديمة على الرقم). اضغط <b>«بدء الجلسة / الحصول على QR»</b> — سيتم تنظيف الجلسة القديمة وإظهار كود جديد، ثم امسحه مرة واحدة.
+        </div>
+      )}
       {info.waQr && info.waStatus === 'qr' && (
         <div className="flex flex-col items-center mb-5 p-5 rounded-2xl border-2 border-dashed"
           style={{ borderColor: '#F59E0B', background: '#FEF3C708' }}>
