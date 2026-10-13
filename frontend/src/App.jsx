@@ -5,11 +5,12 @@ import { CustomDomainSlugContext, CustomDomainInfoContext } from './context/Cust
 import VipLoadingScreen from './components/vip/VipLoadingScreen';
 
 const PLATFORM_HOSTS = [
+  import.meta.env.VITE_PLATFORM_HOST?.toLowerCase(),
   'dash-dintist.euphoria-motiva.com',
   'app.prootech-cloud.com',
   'localhost',
   '127.0.0.1',
-];
+].filter(Boolean);
 
 function CustomDomainGateway() {
   const [info, setInfo] = useState(null);
@@ -147,7 +148,9 @@ function ClinicDashboardGate() {
 
 export default function App() {
   const host = window.location.hostname;
-  const isCustomDomain = !PLATFORM_HOSTS.some(h => host === h || host.endsWith(`.${h}`));
+  // Hostinger's temporary *.hostingersite.com URLs are SaaS previews, not client domains.
+  const isHostingerPreview = host.endsWith('.hostingersite.com');
+  const isCustomDomain = !isHostingerPreview && !PLATFORM_HOSTS.some(h => host === h || host.endsWith(`.${h}`));
 
   if (isCustomDomain) {
     return <CustomDomainGateway />;

@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="space-y-5">
-            <BrandMark light settings={settings} />
+            <BrandMark light />
             <p className="max-w-xs text-sm leading-7 text-white/55">
               {landing?.footer?.description || 'نظام متكامل لعيادات الأسنان — موقع، حجز، مرضى، مالية، واتساب وشاشة انتظار. نجهّزه لعيادتك خلال 48 ساعة.'}
             </p>
@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-sm text-white/40 sm:flex-row">
-          <p>{settings?.copyrightText || `© ${year} Prootech Agency. جميع الحقوق محفوظة.`}</p>
+          <p>{settings?.copyrightText || `© ${year} Dentovi. جميع الحقوق محفوظة. · طُوّر بواسطة PROOTECH AGENCY`}</p>
           <p>صُنع بعناية لأطباء الأسنان</p>
         </div>
       </div>

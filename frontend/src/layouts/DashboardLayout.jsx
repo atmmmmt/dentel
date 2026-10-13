@@ -6,6 +6,7 @@ import {
   ExternalLink, User, Palette, Building2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import BrandLogo from '../components/shared/BrandLogo';
 
 const navItems = [
   { to: '/product-admin', label: 'الرئيسية', icon: LayoutDashboard, end: true },
@@ -33,14 +34,7 @@ export default function DashboardLayout() {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="p-5 border-b" style={{ borderColor: 'var(--color-border)' }}>
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm"
-            style={{ background: 'var(--color-primary)' }}>P</div>
-          <div>
-            <div className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>Prootech</div>
-            <div className="text-xs" style={{ color: 'var(--color-muted)' }}>لوحة التحكم</div>
-          </div>
-        </div>
+        <BrandLogo light={darkMode} />
       </div>
 
       {/* Nav */}

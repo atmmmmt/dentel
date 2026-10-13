@@ -12,6 +12,19 @@ const clinicProtect = async (req, res, next) => {
     if (decoded.type === 'staff' && (!staff || !staff.isActive)) return res.status(401).json({ success: false, message: 'حساب الموظف غير نشط' });
     const clinic = await Clinic.findById(staff?.clinicId || decoded.id);
     if (!clinic || clinic.status === 'suspended') return res.status(401).json({ success: false, message: 'الحساب غير نشط' });
+    // Expired subscriptions remain readable to preserve access to patient records.
+    // Check expiration dates on each request independently of the background scheduler.
+    const now = new Date();
+    const hasAccess = clinic.subscriptionStatus === 'trial'
+      ? clinic.trialEndDate && clinic.trialEndDate > now
+      : clinic.subscriptionStatus === 'active'
+        ? clinic.subscriptionEnd && clinic.subscriptionEnd > now
+        : clinic.subscriptionStatus === 'grace_period'
+          ? clinic.gracePeriodEnd && clinic.gracePeriodEnd > now
+          : false;
+    if (!hasAccess && !['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+      return res.status(403).json({ success: false, code: 'SUBSCRIPTION_EXPIRED', message: 'انتهى الاشتراك السنوي. البيانات متاحة للعرض فقط حتى يتم التجديد.' });
+    }
     req.clinic = clinic;
     req.staff = staff;
     req.actor = staff ? { id: staff._id, name: staff.name, role: staff.role, permissions: staff.permissions } : { id: clinic._id, name: clinic.doctorName, role: 'owner' };

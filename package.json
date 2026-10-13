@@ -1,0 +1,16 @@
+{
+  "name": "dentovi-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dentovi integrated Hostinger deployment: Express API and Vite SPA",
+  "engines": {
+    "node": ">=20 <24"
+  },
+  "main": "backend/src/index.js",
+  "scripts": {
+    "postinstall": "node scripts/hostinger-build.cjs",
+    "build": "node scripts/hostinger-build.cjs",
+    "start": "node backend/src/index.js",
+    "verify:build": "node scripts/verify-build.cjs"
+  }
+}

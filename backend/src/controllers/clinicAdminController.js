@@ -61,9 +61,7 @@ function buildWelcomeKit(req, clinic, password) {
   };
   const sub = clinic.subscriptionStatus === 'trial'
     ? `🎁 فترة تجريبية مجانية حتى ${fmtDate(clinic.trialEndDate)}`
-    : clinic.billingCycle === 'lifetime'
-      ? '♾️ اشتراك دائم مفعّل'
-      : `✅ الاشتراك مفعّل حتى ${fmtDate(clinic.subscriptionEnd)}`;
+    : `✅ الاشتراك السنوي مفعّل حتى ${fmtDate(clinic.subscriptionEnd)}`;
 
   const lines = [
     `أهلاً ${drName(clinic.doctorName)} 👋`,
@@ -115,10 +113,9 @@ const sendViaProotechWhatsApp = (phone, text) => sendPlatformMessage(phone, text
 function applyActivation(clinic, { activation, billingCycle, packagePrice, trialDays }) {
   const now = new Date();
   if (activation === 'paid') {
-    // First paid activation = 13 months (12 + 1 free). Monthly = 1 month. Lifetime = no expiry.
+    // First paid activation includes a complimentary month (13 months total).
     const end = new Date(now);
-    if (billingCycle === 'lifetime') end.setFullYear(end.getFullYear() + 100);
-    else end.setMonth(end.getMonth() + (billingCycle === 'monthly' ? 1 : 13));
+    end.setMonth(end.getMonth() + 13);
     clinic.set({
       subscriptionStatus: 'active',
       subscriptionStart: now,
@@ -201,12 +198,12 @@ exports.createClinic = async (req, res) => {
       doctorName: doctorName.trim(), clinicName: clinicName.trim(), slug, email,
       password: rawPassword,
       phone, whatsapp, country, city,
-      package: pkg || 'Unified',
+      package: 'Unified',
       logo: logo || '',
       status: 'active',
       internalNotes,
       activatedAt: new Date(),
-      billingCycle: ['monthly', 'yearly', 'lifetime'].includes(billingCycle) ? billingCycle : 'yearly',
+      billingCycle: 'yearly',
       packagePrice: Number(packagePrice) || 0,
       domainNotes: domainNotes || '',
       domainCpanelUrl: domainCpanelUrl || '',
@@ -275,7 +272,9 @@ exports.updateClinic = async (req, res) => {
   try {
     const clinic = await Clinic.findById(req.params.id);
     if (!clinic) return res.status(404).json({ success: false, message: 'العيادة غير موجودة' });
-    EDITABLE.forEach(k => { if (req.body[k] !== undefined) clinic[k] = req.body[k]; });
+    EDITABLE.forEach(k => { if (req.body[k] !== undefined && !['billingCycle', 'package'].includes(k)) clinic[k] = req.body[k]; });
+    clinic.billingCycle = 'yearly';
+    clinic.package = 'Unified';
     await clinic.save({ validateBeforeSave: false });
     if (req.body.domain !== undefined && req.body.domain !== clinic.domain) {
       const { error } = await assignDomain(clinic, req.body.domain);
@@ -315,11 +314,10 @@ exports.getWelcomeKit = async (req, res) => {
 
 exports.deleteClinic = async (req, res) => {
   try {
-    const clinic = await Clinic.findByIdAndDelete(req.params.id);
+    // Preserve patient, appointment, and financial records. Deactivate instead of orphaning them.
+    const clinic = await Clinic.findByIdAndUpdate(req.params.id, { status: 'suspended', subscriptionStatus: 'cancelled' }, { new: true });
     if (!clinic) return res.status(404).json({ success: false, message: 'العيادة غير موجودة' });
-    if (clinic.domain) removeDomainFromTunnel(clinic.domain);
-    await ClinicSettings.deleteOne({ clinicId: req.params.id });
-    res.json({ success: true, message: 'تم حذف العيادة' });
+    res.json({ success: true, message: 'تم إيقاف العيادة مع الاحتفاظ ببياناتها لاستعادتها عند الحاجة' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

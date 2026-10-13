@@ -145,7 +145,7 @@ function CreateWizard({ onClose, onCreated }) {
     finally { setSaving(false); }
   };
 
-  const months = form.activation === 'paid' ? (form.billingCycle === 'yearly' ? '13 شهراً (12 + شهر هدية)' : form.billingCycle === 'monthly' ? 'شهر واحد' : 'دائم') : `${form.trialDays} يوماً تجريبياً`;
+  const months = form.activation === 'paid' ? '13 شهراً (12 + شهر هدية)' : `${form.trialDays} يوماً تجريبياً`;
 
   return (
     <Modal onClose={onClose} wide>
@@ -191,8 +191,6 @@ function CreateWizard({ onClose, onCreated }) {
                 <Field label="مدة الاشتراك">
                   <select className="input-base" value={form.billingCycle} onChange={e => f('billingCycle', e.target.value)}>
                     <option value="yearly">سنوي — 13 شهراً للاشتراك الأول</option>
-                    <option value="monthly">شهري</option>
-                    <option value="lifetime">دائم (مدى الحياة)</option>
                   </select>
                 </Field>
                 <Field label="المبلغ المستلم ($)"><input className="input-base" type="number" min="0" dir="ltr" placeholder="0" value={form.packagePrice} onChange={e => f('packagePrice', e.target.value)} /></Field>
@@ -350,7 +348,7 @@ export default function ClinicsPage() {
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="text-base font-bold text-[var(--color-text)]">{c.clinicName}</h3>
-                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ${subCls}`}>{subLabel}{d !== null && c.billingCycle !== 'lifetime' && ` · ${d >= 0 ? `${d} يوماً` : 'منتهي'}`}</span>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ${subCls}`}>{subLabel}{d !== null && ` · ${d >= 0 ? `${d} يوماً` : 'منتهي'}`}</span>
                     {c.status === 'suspended' && <span className="rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700 ring-1 ring-rose-200">الحساب موقوف</span>}
                   </div>
                   <p className="mt-0.5 truncate text-sm text-[var(--color-muted)]">{c.doctorName} · <span dir="ltr">{c.email}</span>{c.city ? ` · ${c.city}` : ''}</p>
@@ -362,7 +360,7 @@ export default function ClinicsPage() {
               <div className="mt-4 flex flex-wrap gap-2 border-t border-[var(--color-border)] pt-4">
                 {[
                   [Sparkles, 'بطاقة التسليم', () => openKit(c)],
-                  [CreditCard, 'تجديد', () => { setRenewTarget(c); setRenewForm({ billingCycle: c.billingCycle === 'monthly' ? 'monthly' : 'yearly', packagePrice: '' }); }],
+                  [CreditCard, 'تجديد', () => { setRenewTarget(c); setRenewForm({ billingCycle: 'yearly', packagePrice: '' }); }],
                   [KeyRound, 'كلمة مرور جديدة', () => resetPassword(c)],
                 ].map(([I, l, fn]) => <button key={l} onClick={fn} className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[13px] font-semibold text-[var(--color-text)] ring-1 ring-[var(--color-border)] hover:bg-[var(--color-bg)]"><I size={15} className="text-[#1FA6A6]" />{l}</button>)}
                 <a href={`/clinic/${c.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[13px] font-semibold text-[var(--color-text)] ring-1 ring-[var(--color-border)] hover:bg-[var(--color-bg)]"><ExternalLink size={15} className="text-[#1FA6A6]" />الموقع</a>
@@ -396,7 +394,6 @@ export default function ClinicsPage() {
               <Field label="المدة">
                 <select className="input-base" value={renewForm.billingCycle} onChange={e => setRenewForm(p => ({ ...p, billingCycle: e.target.value }))}>
                   <option value="yearly">سنوي{!renewTarget.subscriptionStart ? ' — 13 شهراً (أول اشتراك)' : ' — 12 شهراً'}</option>
-                  <option value="monthly">شهري</option>
                 </select>
               </Field>
               <Field label="المبلغ المستلم ($)"><input className="input-base" type="number" min="0" dir="ltr" value={renewForm.packagePrice} onChange={e => setRenewForm(p => ({ ...p, packagePrice: e.target.value }))} /></Field>

@@ -108,7 +108,7 @@ export default function ClinicLoginPage() {
         </div>
 
         <p className="text-center text-xs mt-5" style={{ color: '#6F7378' }}>
-          مشغّل بواسطة <span className="font-semibold" style={{ color: primary }}>Prootech Agency</span>
+          مشغّل بواسطة <span className="font-semibold" style={{ color: primary }}>Dentovi</span>
         </p>
       </motion.div>
     </div>

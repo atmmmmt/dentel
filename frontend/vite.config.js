@@ -10,13 +10,13 @@ export default defineConfig({
     // في src/services/offlineStore.js
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'dentovi-icon.svg', 'dentovi-mark.svg'],
       manifest: {
-        name: 'نظام عيادة الأسنان الاحترافي',
-        short_name: 'Dental Pro',
+        name: 'Dentovi — منصة إدارة عيادات الأسنان',
+        short_name: 'Dentovi',
         description: 'نظام إدارة عيادات الأسنان — يعمل أونلاين وأوفلاين',
-        theme_color: '#2D6BEB',
-        background_color: '#1A3A7C',
+        theme_color: '#0B2D4A',
+        background_color: '#FFFFFF',
         display: 'standalone',
         orientation: 'any',
         dir: 'rtl',
@@ -24,9 +24,9 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         icons: [
-          { src: '/favicon.svg', sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
-          { src: '/favicon.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'any' },
-          { src: '/favicon.svg', sizes: 'any',     type: 'image/svg+xml', purpose: 'maskable' },
+          { src: '/dentovi-icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/dentovi-icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/dentovi-icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'maskable' },
         ],
       },
       workbox: {

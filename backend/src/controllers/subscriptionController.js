@@ -28,7 +28,8 @@ exports.checkAllSubscriptions = async () => {
     // Grace period expired → suspended
     if (clinic.subscriptionStatus === 'grace_period' && clinic.gracePeriodEnd < now) {
       clinic.subscriptionStatus = 'suspended';
-      clinic.status = 'suspended';
+      // Keep clinic account accessible for read-only medical record retrieval.
+      // Subscription status, not account suspension, controls writes.
       changed = true;
       await sendWhatsAppWarning(clinic, 'suspended');
     }
@@ -84,15 +85,14 @@ const sendWhatsAppWarning = async (clinic, type) => {
 exports.renewSubscription = async (req, res) => {
   try {
     const { id } = req.params;
-    const { billingCycle, packagePrice } = req.body;
+    const { packagePrice } = req.body;
     const clinic = await Clinic.findById(id);
     if (!clinic) return res.status(404).json({ success: false, message: 'العيادة غير موجودة' });
 
     const now = new Date();
     // أول تفعيل مدفوع = 13 شهر (سنة + شهر مجاني للجميع). التجديدات اللاحقة سنة/شهر عادي.
     const isFirstActivation = !clinic.subscriptionStart && (clinic.totalRevenue || 0) === 0;
-    let months = billingCycle === 'yearly' ? 12 : 1;
-    if (isFirstActivation && billingCycle !== 'monthly') months = 13;
+    const months = isFirstActivation ? 13 : 12;
     const start = now;
     // Early renewal keeps the days already paid for: extend from the current end date.
     const stillActive = clinic.subscriptionStatus === 'active' && clinic.subscriptionEnd && clinic.subscriptionEnd > now;
@@ -103,14 +103,17 @@ exports.renewSubscription = async (req, res) => {
     clinic.subscriptionStart = start;
     clinic.subscriptionEnd = end;
     clinic.gracePeriodEnd = null;
-    clinic.billingCycle = billingCycle || clinic.billingCycle;
+    clinic.billingCycle = 'yearly';
+    clinic.package = 'Unified';
     clinic.status = 'active';
     clinic.renewalReminderSent = false;
     clinic.gracePeriodWarningSent = false;
 
-    if (packagePrice) {
-      clinic.packagePrice = packagePrice;
-      clinic.totalRevenue = (clinic.totalRevenue || 0) + Number(packagePrice);
+    if (packagePrice !== undefined) {
+      const amount = Number(packagePrice);
+      if (!Number.isFinite(amount) || amount < 0) return res.status(400).json({ success: false, message: 'المبلغ المدفوع غير صالح' });
+      clinic.packagePrice = amount;
+      clinic.totalRevenue = (clinic.totalRevenue || 0) + amount;
     }
 
     await clinic.save({ validateBeforeSave: false });

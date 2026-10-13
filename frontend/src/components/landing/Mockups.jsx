@@ -51,14 +51,14 @@ export function DashboardMock({ compact = false }) {
         <div className="mb-3 grid grid-cols-3 gap-2">
           {[[CalendarDays, 'مواعيد اليوم', '14', '+3'], [Users, 'مرضى جدد', '6', '+2'], [WalletCards, 'تحصيل اليوم', '1.2 م', '92%']].map(([I, l, v, t]) => (
             <div key={l} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200/70">
-              <div className="flex items-center justify-between"><I size={12} className="text-[#1FA6A6]" /><span className="rounded-full bg-emerald-50 px-1.5 text-[10px] font-bold text-emerald-700">{t}</span></div>
+              <div className="flex items-center justify-between"><I size={12} className="text-[#0FB5A7]" /><span className="rounded-full bg-emerald-50 px-1.5 text-[10px] font-bold text-emerald-700">{t}</span></div>
               <b className="mt-1 block text-base leading-tight text-[#0B2A40]">{v}</b>
               <span className="text-[10.5px] text-slate-400">{l}</span>
             </div>
           ))}
         </div>
         <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200/70">
-          <div className="mb-2 flex items-center justify-between"><b className="text-[12.5px] text-[#0B2A40]">جدول اليوم</b><span className="text-[10.5px] text-[#1FA6A6]">عرض الكل</span></div>
+          <div className="mb-2 flex items-center justify-between"><b className="text-[12.5px] text-[#0B2A40]">جدول اليوم</b><span className="text-[10.5px] text-[#0FB5A7]">عرض الكل</span></div>
           <div className="space-y-1.5">
             {APPTS.slice(0, compact ? 3 : 4).map(([t, n, s, c, st]) => (
               <div key={n} className="flex items-center gap-2 rounded-lg bg-slate-50 px-2 py-1.5">
@@ -100,7 +100,7 @@ export function ClinicSiteMock() {
         <b className="text-[10.5px] text-[#221A12]">اختر الوقت — الخميس</b>
         <div className="grid grid-cols-3 gap-1.5" dir="ltr">
           {['4:00', '4:30', '5:00', '5:30', '6:00', '6:30'].map((t, i) => (
-            <span key={t} className={`rounded-md py-1 text-center text-[10px] font-bold ${i === 2 ? 'bg-[#1FA6A6] text-white' : 'bg-slate-100 text-slate-500'} ${i === 4 ? 'line-through opacity-40' : ''}`}>{t}</span>
+            <span key={t} className={`rounded-md py-1 text-center text-[10px] font-bold ${i === 2 ? 'bg-[#0FB5A7] text-white' : 'bg-slate-100 text-slate-500'} ${i === 4 ? 'line-through opacity-40' : ''}`}>{t}</span>
           ))}
         </div>
         <div className="flex items-center gap-1 rounded-lg bg-emerald-50 px-2 py-1.5 text-[10px] font-bold text-emerald-700"><CheckCircle2 size={10} />تم الحجز — وصلك التأكيد على واتساب</div>
@@ -112,7 +112,7 @@ export function ClinicSiteMock() {
 export function WaitingScreenMock() {
   return (
     <div className="relative aspect-video overflow-hidden rounded-xl bg-[#0B1E2E] p-4 text-right text-white" dir="rtl">
-      <div className="absolute -left-10 -top-10 size-40 rounded-full bg-[#1FA6A6]/25 blur-3xl" />
+      <div className="absolute -left-10 -top-10 size-40 rounded-full bg-[#0FB5A7]/25 blur-3xl" />
       <div className="relative flex h-full gap-3">
         <div className="flex flex-1 flex-col justify-between rounded-lg bg-white/5 p-3 ring-1 ring-white/10">
           <span className="flex items-center gap-1 text-[10.5px] text-[#7FE0DA]"><Volume2 size={10} />يرجى التوجه إلى العيادة</span>
@@ -121,7 +121,7 @@ export function WaitingScreenMock() {
             <b className="block text-2xl leading-tight">ليان أحمد</b>
             <p className="text-[10.5px] text-white/60">الكرسي 2 — د. أحمد</p>
           </div>
-          <span className="w-fit rounded-full bg-[#1FA6A6] px-2 py-0.5 text-[10px] font-bold">رقم 07</span>
+          <span className="w-fit rounded-full bg-[#0FB5A7] px-2 py-0.5 text-[10px] font-bold">رقم 07</span>
         </div>
         <div className="flex w-[38%] flex-col gap-1.5">
           <p className="text-[10.5px] font-bold text-white/70">قائمة الانتظار</p>
@@ -137,7 +137,7 @@ export function WaitingScreenMock() {
 
 // Simplified occlusal arch — echoes the in-app 3D chart without loading WebGL on the landing page.
 export function ToothArchMock() {
-  const cond = { 3: '#F59E0B', 6: '#1FA6A6', 11: '#EF4444', 13: '#8B5CF6' };
+  const cond = { 3: '#F59E0B', 6: '#0FB5A7', 11: '#EF4444', 13: '#8B5CF6' };
   const teeth = Array.from({ length: 16 }, (_, i) => {
     const a = Math.PI * (0.08 + (0.84 * i) / 15);
     return { x: 150 - Math.cos(a) * 112, y: 30 + Math.sin(a) * 92, r: i < 3 || i > 12 ? 13 : i < 5 || i > 10 ? 11 : 9.5, c: cond[i] };
@@ -168,7 +168,7 @@ export function PatientFileMock() {
       </div>
       <div className="rounded-lg bg-[#F7F9FA] p-1"><ToothArchMock /></div>
       <div className="mt-2 flex flex-wrap gap-1">
-        {[['#1FA6A6', 'حشوة'], ['#F59E0B', 'تاج'], ['#EF4444', 'قلع'], ['#8B5CF6', 'زرعة']].map(([c, l]) => (
+        {[['#0FB5A7', 'حشوة'], ['#F59E0B', 'تاج'], ['#EF4444', 'قلع'], ['#8B5CF6', 'زرعة']].map(([c, l]) => (
           <span key={l} className="flex items-center gap-1 rounded-full bg-slate-50 px-1.5 py-0.5 text-[10px] text-slate-500"><i className="size-1.5 rounded-full" style={{ background: c }} />{l}</span>
         ))}
       </div>
@@ -209,7 +209,7 @@ export function OfflineMock() {
 export function DomainBarMock({ domain = 'dr-ahmed.com', status = 'live' }) {
   return (
     <div className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-[12.5px] shadow-lg ring-1 ring-slate-200" dir="ltr">
-      <Globe size={14} className="text-[#1FA6A6]" />
+      <Globe size={14} className="text-[#0FB5A7]" />
       <b className="text-[#0B2A40]">{domain}</b>
       {status === 'live'
         ? <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10.5px] font-bold text-emerald-700"><Wifi size={9} />Live · Secure</span>

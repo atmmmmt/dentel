@@ -9,7 +9,10 @@ const staff = require('./clinicStaff');
 
 router.use(clinicProtect);
 router.use('/finance', requirePermission('finance', 'view'), finance);
-router.use('/staff', requirePermission('settings', 'update'), staff);
+router.use('/staff', (req, res, next) => {
+  if (req.staff && req.actor.role !== 'admin') return res.status(403).json({ success: false, message: 'إدارة الموظفين متاحة لمالك العيادة أو المدير فقط' });
+  next();
+}, staff);
 
 // Dashboard stats
 router.get('/stats', c.getDashboardStats);

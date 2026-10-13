@@ -30,7 +30,7 @@ const clinicSchema = new mongoose.Schema({
     default: 'Unified',
   },
   packagePrice:    { type: Number, default: 0 },  // price paid
-  billingCycle:    { type: String, enum: ['monthly', 'yearly', 'lifetime'], default: 'monthly' },
+  billingCycle:    { type: String, enum: ['monthly', 'yearly', 'lifetime'], default: 'yearly' },
 
   // ── Subscription ──────────────────────────────────────────────────
   subscriptionStatus: {

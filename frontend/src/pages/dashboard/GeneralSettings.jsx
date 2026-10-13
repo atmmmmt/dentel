@@ -136,7 +136,7 @@ function WaSessionCard() {
         <div>
           <h3 className="font-bold" style={{ color: 'var(--color-text)' }}>ربط الواتساب — VAYRO</h3>
           <p className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>
-            ربط رقم واتساب Prootech لإرسال الرسائل التلقائية والتنبيهات
+            ربط رقم واتساب Dentovi لإرسال الرسائل التلقائية والتنبيهات
           </p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
@@ -313,7 +313,7 @@ export default function GeneralSettings() {
             ].map(([label, key]) => (
               <FormField key={key} label={label}>
                 <div className="flex gap-2 items-center">
-                  <input type="color" value={settings[key] || '#C9B89A'} onChange={e => set(key, e.target.value)}
+                  <input type="color" value={settings[key] || '#0FB5A7'} onChange={e => set(key, e.target.value)}
                     className="w-10 h-10 rounded-lg border cursor-pointer" style={{ borderColor: 'var(--color-border)', padding: '2px' }} />
                   <input className="input-base text-sm font-mono flex-1" dir="ltr" value={settings[key] || ''} onChange={e => set(key, e.target.value)} />
                 </div>

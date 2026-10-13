@@ -39,7 +39,7 @@ export function Hero() {
   return (
     <section className="pt-hero relative overflow-hidden pb-20 pt-28 text-white lg:pb-28 lg:pt-36">
       <div className="pt-grid absolute inset-0 opacity-[.35]" />
-      <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[#1FA6A6]/25 blur-[120px]" />
+      <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[#0FB5A7]/25 blur-[120px]" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_1fr]">
           <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease: [0.22, 1, 0.36, 1] }}>
@@ -94,7 +94,7 @@ export function IncludedStrip() {
       <div className="pt-marquee flex w-max gap-3">
         {row.map((t, i) => (
           <span key={i} className="flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-4 py-2 text-[15px] font-medium text-[#0B2A40] ring-1 ring-slate-200">
-            <Check size={14} className="text-[#1FA6A6]" />{t}
+            <Check size={14} className="text-[#0FB5A7]" />{t}
           </span>
         ))}
       </div>
@@ -119,8 +119,8 @@ export function BeforeAfter() {
             <ul className="space-y-3">{BEFORE.map(t => <li key={t} className="pt-body flex items-start gap-3 text-slate-600"><X size={16} className="mt-1 shrink-0 text-rose-300" />{t}</li>)}</ul>
           </motion.div>
           <motion.div {...reveal} transition={{ ...reveal.transition, delay: .12 }} className="relative overflow-hidden rounded-3xl bg-[#0B2A40] p-7 text-white">
-            <div className="absolute -left-16 -top-16 size-56 rounded-full bg-[#1FA6A6]/30 blur-3xl" />
-            <div className="relative mb-5 flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-[#1FA6A6] text-white"><Check size={20} /></span><b className="pt-h3">مع Prootech</b></div>
+            <div className="absolute -left-16 -top-16 size-56 rounded-full bg-[#0FB5A7]/30 blur-3xl" />
+            <div className="relative mb-5 flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-[#0FB5A7] text-white"><Check size={20} /></span><b className="pt-h3">مع Dentovi</b></div>
             <ul className="relative space-y-3">{AFTER.map(t => <li key={t} className="pt-body flex items-start gap-3 text-white/85"><Check size={16} className="mt-1 shrink-0 text-[#5FD6CF]" />{t}</li>)}</ul>
           </motion.div>
         </div>
@@ -159,7 +159,7 @@ export function ProductTour() {
             <div>
               <h3 className="pt-h2 text-[#0B2A40]" style={{ fontSize: 'clamp(1.5rem, 1.2rem + 1vw, 2rem)' }}>{item.title}</h3>
               <p className="pt-lead mt-4 text-slate-600">{item.text}</p>
-              <ul className="mt-6 space-y-3">{item.points.map(p => <li key={p} className="pt-body flex items-center gap-3 font-medium text-[#0B2A40]"><span className="grid size-6 place-items-center rounded-full bg-[#1FA6A6] text-white"><Check size={13} /></span>{p}</li>)}</ul>
+              <ul className="mt-6 space-y-3">{item.points.map(p => <li key={p} className="pt-body flex items-center gap-3 font-medium text-[#0B2A40]"><span className="grid size-6 place-items-center rounded-full bg-[#0FB5A7] text-white"><Check size={13} /></span>{p}</li>)}</ul>
               <Link to="/demo" className="mt-8 inline-flex items-center gap-2 font-semibold text-[#137F7F] transition-all hover:gap-3">شاهدها في الديمو<ArrowLeft size={17} /></Link>
             </div>
             <div className="min-w-0">{item.visual()}</div>
@@ -199,7 +199,7 @@ export function FeatureBento() {
             return (
               <motion.div key={title} {...reveal} transition={{ ...reveal.transition, delay: (i % 4) * .06 }}
                 className={`group rounded-3xl p-6 ring-1 transition hover:-translate-y-1 hover:shadow-xl ${featured ? 'bg-[#0B2A40] text-white ring-[#0B2A40] lg:col-span-2' : 'bg-white ring-slate-200'}`}>
-                <span className={`mb-5 grid size-12 place-items-center rounded-2xl transition group-hover:scale-110 ${featured ? 'bg-[#1FA6A6] text-white' : 'bg-[#E3F6F5] text-[#137F7F]'}`}><I size={22} /></span>
+                <span className={`mb-5 grid size-12 place-items-center rounded-2xl transition group-hover:scale-110 ${featured ? 'bg-[#0FB5A7] text-white' : 'bg-[#E3F6F5] text-[#137F7F]'}`}><I size={22} /></span>
                 <h3 className={`pt-h3 ${featured ? 'text-white' : 'text-[#0B2A40]'}`}>{title}</h3>
                 <p className={`pt-small mt-2 ${featured ? 'text-white/65' : 'text-slate-500'}`}>{desc}</p>
               </motion.div>
@@ -242,7 +242,7 @@ export function DomainSection() {
           <div className="space-y-4">
             {steps.map(({ icon: I, t, d }, i) => (
               <motion.div key={t} {...reveal} transition={{ ...reveal.transition, delay: i * .1 }} className="flex gap-4 rounded-2xl bg-white/[.04] p-4 ring-1 ring-white/10">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#1FA6A6]/20 text-[#7FE0DA]"><I size={20} /></span>
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#0FB5A7]/20 text-[#7FE0DA]"><I size={20} /></span>
                 <div><b className="pt-h4 block">{t}</b><p className="pt-small mt-1 text-white/65">{d}</p></div>
               </motion.div>
             ))}
@@ -254,7 +254,7 @@ export function DomainSection() {
               <Icons.Lock size={16} className="text-emerald-600" /><span className="text-slate-400">https://</span><TypedDomain />
             </div>
             <div className="space-y-2.5 rounded-2xl bg-[#0B2A40] p-4 text-[15px]">
-              {[['الدومين مسجّل ومفعّل', true], ['www يشير إلى Prootech', true], ['تحويل الدومين الأساسي', true], ['شهادة الأمان SSL', true]].map(([l], i) => (
+              {[['الدومين مسجّل ومفعّل', true], ['www يشير إلى Dentovi', true], ['تحويل الدومين الأساسي', true], ['شهادة الأمان SSL', true]].map(([l], i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: .3 + i * .25 }} className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
                   <span className="text-white/75">{l}</span><span className="flex items-center gap-1 text-[13px] font-semibold text-emerald-400"><Check size={15} />تم</span>
                 </motion.div>
@@ -284,13 +284,13 @@ export function LaunchTimeline() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow="من الاتفاق إلى أول حجز" title={copy(landing?.workflow?.title, 'عيادتك أونلاين خلال 48 ساعة')} subtitle={copy(landing?.workflow?.subtitle, 'لا تثبيت، ولا خوادم، ولا تعقيد تقني. نحن نجهّز كل شيء، وتستلم نظاماً جاهزاً للعمل.')} />
         <div className="relative grid gap-5 md:grid-cols-5">
-          <div className="absolute right-[10%] left-[10%] top-7 hidden h-0.5 bg-gradient-to-l from-[#1FA6A6] via-[#1FA6A6]/40 to-[#1FA6A6]/10 md:block" />
+          <div className="absolute right-[10%] left-[10%] top-7 hidden h-0.5 bg-gradient-to-l from-[#0FB5A7] via-[#0FB5A7]/40 to-[#0FB5A7]/10 md:block" />
           {steps.map((s, i) => {
             const I = Icons[s.icon] || [Settings2, Palette, Link2, GraduationCap, Rocket][i] || Zap;
             return (
               <motion.div key={i} {...reveal} transition={{ ...reveal.transition, delay: i * .08 }} className="relative text-center">
                 <span className="relative z-10 mx-auto grid size-14 place-items-center rounded-2xl bg-[#0B2A40] text-white shadow-lg ring-4 ring-white"><I size={22} /></span>
-                <span className="pt-stat mt-3 block text-[13px] font-semibold text-[#1FA6A6]">0{i + 1}</span>
+                <span className="pt-stat mt-3 block text-[13px] font-semibold text-[#0FB5A7]">0{i + 1}</span>
                 <b className="pt-h4 mt-1 block text-[#0B2A40]">{s.title}</b>
                 <p className="pt-small mt-1 text-slate-500">{s.description}</p>
               </motion.div>
@@ -311,22 +311,22 @@ export function PricingPlan() {
       <div className="mx-auto max-w-5xl">
         <SectionHeading eyebrow="الاشتراك" title="خطة واحدة. كل شيء مشمول." subtitle="لا باقات مربكة ولا ميزات مقفلة: سعر واحد واضح، ودفع نقدي سنوي دون الحاجة إلى بطاقة." />
         <motion.div {...reveal} className="relative overflow-hidden rounded-[2rem] bg-[#0B2A40] text-white shadow-2xl shadow-[#0B2A40]/25">
-          <div className="absolute -left-24 -top-24 size-72 rounded-full bg-[#1FA6A6]/30 blur-3xl" />
+          <div className="absolute -left-24 -top-24 size-72 rounded-full bg-[#0FB5A7]/30 blur-3xl" />
           <div className="relative grid lg:grid-cols-[1fr_1.3fr]">
             <div className="border-b border-white/10 p-8 sm:p-10 lg:border-b-0 lg:border-l">
               <span className="pt-eyebrow inline-flex items-center gap-1.5 rounded-full bg-gradient-to-l from-[#B8945B] to-[#E3C48D] px-3.5 py-1.5 text-[#2A1E0E]"><Sparkles size={13} />أول اشتراك: 13 شهراً بسعر 12</span>
-              <h3 className="mt-5 font-english text-3xl font-bold">Prootech Complete</h3>
+              <h3 className="mt-5 font-english text-3xl font-bold">Dentovi Annual</h3>
               <p className="pt-body mt-3 text-white/70">يُحدَّد السعر حسب حجم العيادة (عدد الكراسي والأطباء)، ونرسله لك خلال ساعة.</p>
               <div className="pt-small mt-6 space-y-3 text-white/80">
                 {[[Wallet, 'دفع نقدي — دون بطاقة أو تحويل دولي'], [CalendarDays, 'تذكير قبل انتهاء الاشتراك بشهر'], [ShieldCheck, 'بياناتك ملكك — تصدير متى شئت']].map(([I, t]) => (
                   <span key={t} className="flex items-center gap-2"><I size={16} className="text-[#7FE0DA]" />{t}</span>
                 ))}
               </div>
-              <button onClick={() => openWhatsApp('Prootech Complete')} className="pt-btn-primary mt-8 w-full justify-center"><MessageCircle size={18} />اطلب عرض السعر لعيادتك</button>
+              <button onClick={() => openWhatsApp('Dentovi Annual')} className="pt-btn-primary mt-8 w-full justify-center"><MessageCircle size={18} />اطلب عرض السعر لعيادتك</button>
               <Link to="/demo" className="pt-small mt-3 block text-center font-medium text-white/65 hover:text-white">أو جرّب الديمو أولاً ←</Link>
             </div>
             <ul className="grid gap-x-6 gap-y-3.5 p-8 sm:grid-cols-2 sm:p-10">
-              {PLAN_FEATURES.map(f => <li key={f} className="pt-body flex items-start gap-2.5 text-white/85"><span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#1FA6A6]/25 text-[#7FE0DA]"><Check size={12} /></span>{f}</li>)}
+              {PLAN_FEATURES.map(f => <li key={f} className="pt-body flex items-start gap-2.5 text-white/85"><span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#0FB5A7]/25 text-[#7FE0DA]"><Check size={12} /></span>{f}</li>)}
             </ul>
           </div>
         </motion.div>
@@ -345,15 +345,15 @@ const COMPARE = [
   ['شاشة غرفة الانتظار', false, false, true],
   ['تجهيز وتدريب بالعربي', false, false, true],
 ];
-const Cell = ({ v }) => v === true ? <Check size={18} className="mx-auto text-[#1FA6A6]" /> : v === 'partial' ? <span className="text-[13px] font-medium text-amber-600">جزئياً</span> : <X size={16} className="mx-auto text-slate-300" />;
+const Cell = ({ v }) => v === true ? <Check size={18} className="mx-auto text-[#0FB5A7]" /> : v === 'partial' ? <span className="text-[13px] font-medium text-amber-600">جزئياً</span> : <X size={16} className="mx-auto text-slate-300" />;
 export function Comparison() {
   return (
     <section className="pt-section bg-white">
       <div className="mx-auto max-w-4xl">
-        <SectionHeading eyebrow="مقارنة صريحة" title="لماذا Prootech وليس برنامجاً عادياً؟" />
+        <SectionHeading eyebrow="مقارنة صريحة" title="لماذا Dentovi وليس برنامجاً عادياً؟" />
         <motion.div {...reveal} className="overflow-x-auto rounded-3xl ring-1 ring-slate-200">
           <table className="w-full min-w-[560px] text-[15px]">
-            <thead><tr className="bg-slate-50 text-slate-500"><th className="p-4 text-right font-semibold">الميزة</th><th className="p-4 font-semibold">الدفتر والورق</th><th className="p-4 font-semibold">برامج عامة</th><th className="bg-[#0B2A40] p-4 font-bold text-white">Prootech</th></tr></thead>
+            <thead><tr className="bg-slate-50 text-slate-500"><th className="p-4 text-right font-semibold">الميزة</th><th className="p-4 font-semibold">الدفتر والورق</th><th className="p-4 font-semibold">برامج عامة</th><th className="bg-[#0B2A40] p-4 font-bold text-white">Dentovi</th></tr></thead>
             <tbody>{COMPARE.map(([f, a, b, c]) => <tr key={f} className="border-t border-slate-100"><td className="p-4 font-medium text-[#0B2A40]">{f}</td><td className="p-4 text-center"><Cell v={a} /></td><td className="p-4 text-center"><Cell v={b} /></td><td className="bg-[#E3F6F5]/60 p-4 text-center"><Cell v={c} /></td></tr>)}</tbody>
           </table>
         </motion.div>
@@ -410,7 +410,7 @@ export function FAQ() {
             <div key={f._id || i} className={`overflow-hidden rounded-2xl ring-1 transition ${open === i ? 'bg-[#F5F8FA] ring-[#BCE9E6]' : 'bg-white ring-slate-200'}`}>
               <button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-right">
                 <span className="pt-h4 text-[#0B2A40]">{f.question}</span>
-                <ChevronDown size={18} className={`shrink-0 text-slate-400 transition ${open === i ? 'rotate-180 text-[#1FA6A6]' : ''}`} />
+                <ChevronDown size={18} className={`shrink-0 text-slate-400 transition ${open === i ? 'rotate-180 text-[#0FB5A7]' : ''}`} />
               </button>
               <AnimatePresence initial={false}>
                 {open === i && <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden"><p className="pt-body px-6 pb-5 text-slate-600">{f.answer}</p></motion.div>}
@@ -431,7 +431,7 @@ export function FinalCTA() {
     <section className="px-5 pb-20 pt-4 sm:px-8">
       <motion.div {...reveal} className="pt-hero relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] px-6 py-16 text-center text-white sm:px-12 sm:py-20">
         <div className="pt-grid absolute inset-0 opacity-30" />
-        <div className="absolute -bottom-32 left-1/2 h-72 w-[600px] -translate-x-1/2 rounded-full bg-[#1FA6A6]/35 blur-[100px]" />
+        <div className="absolute -bottom-32 left-1/2 h-72 w-[600px] -translate-x-1/2 rounded-full bg-[#0FB5A7]/35 blur-[100px]" />
         <div className="relative">
           <div className="mx-auto mb-6 flex w-fit gap-2"><ClockChip /></div>
           <h2 className="pt-h1 mx-auto max-w-3xl">{copy(cta?.title, 'عيادتك تستحق نظاماً بمستوى عملك')}</h2>
@@ -450,7 +450,7 @@ export function PageHero({ eyebrow, title, subtitle, children }) {
   return (
     <section className="pt-hero relative overflow-hidden px-5 pb-16 pt-32 text-center text-white sm:px-8 lg:pb-20 lg:pt-40">
       <div className="pt-grid absolute inset-0 opacity-30" />
-      <div className="absolute -top-40 left-1/2 h-96 w-[700px] -translate-x-1/2 rounded-full bg-[#1FA6A6]/25 blur-[110px]" />
+      <div className="absolute -top-40 left-1/2 h-96 w-[700px] -translate-x-1/2 rounded-full bg-[#0FB5A7]/25 blur-[110px]" />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative mx-auto max-w-3xl">
         {eyebrow && <span className="pt-eyebrow mb-5 inline-flex rounded-full bg-white/[.07] px-4 py-1.5 text-[#9BEDE7] ring-1 ring-white/15">{eyebrow}</span>}
         <h1 className="pt-h1">{title}</h1>

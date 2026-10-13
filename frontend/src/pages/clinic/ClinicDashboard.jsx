@@ -160,7 +160,7 @@ function Sidebar({ slug, clinic, settings, onLogout, mobile, onClose }) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs font-bold text-gray-800 truncate">{clinic?.doctorName}</div>
-            <div className="text-xs text-gray-400 truncate">Prootech Complete</div>
+            <div className="text-xs text-gray-400 truncate">Dentovi Annual</div>
           </div>
         </div>
         <button onClick={onLogout}
@@ -299,7 +299,7 @@ function DashHome({ slug, settings, clinic }) {
             <div className="text-xs font-bold text-gray-400 mb-1">الاشتراك</div>
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-sm font-bold text-gray-700">
-                Prootech Complete · {clinic.billingCycle === 'yearly' ? 'سنوي' : clinic.billingCycle === 'monthly' ? 'شهري' : '—'}
+                Dentovi Annual · {clinic.billingCycle === 'yearly' ? 'سنوي' : clinic.billingCycle === 'monthly' ? 'شهري' : '—'}
               </span>
               {clinic.subscriptionStatus === 'trial' && clinic.trialEndDate && (
                 <span className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: '#F5F3FF', color: '#7C3AED' }}>

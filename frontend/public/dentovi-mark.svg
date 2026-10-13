@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Dentovi dental D symbol">
+<defs>
+<linearGradient id="d" x1="16%" y1="7%" x2="87%" y2="94%"><stop stop-color="#0FB5A7"/><stop offset=".52" stop-color="#079A96"/><stop offset="1" stop-color="#0B2D4A"/></linearGradient>
+<linearGradient id="shine" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#A7EAD9"/><stop offset="1" stop-color="#38C9BD"/></linearGradient>
+</defs>
+<path d="M25 10h36c35 0 58 22 58 54s-23 54-58 54H25a7 7 0 0 1-7-7V17a7 7 0 0 1 7-7Z" fill="url(#d)"/>
+<path d="M61 26c28 0 44 17 44 38 0 21-16 39-44 39H43V26h18Z" fill="url(#shine)" opacity=".23"/>
+<path d="M43 37c-11-3-20 3-20 17 0 11 5 22 9 33 3 8 5 19 12 19 6 0 7-10 11-21 2-5 6-10 10-10s8 5 10 10c1 2 1 4 2 6 11-7 18-19 18-35 0-15-9-22-20-19-11 4-17 5-32 0Z" fill="#FFF"/>
+<path d="M43 37c12 3 21 5 32 0 5-1 9-1 13 1-10 7-21 9-32 9-12 0-22-3-31-7 5-4 11-5 18-3Z" fill="#E4FFFA" opacity=".92"/>
+</svg>

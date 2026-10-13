@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import BrandLogo from '../../components/shared/BrandLogo';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -27,9 +28,8 @@ export default function LoginPage() {
         className="w-full max-w-sm rounded-2xl border p-8"
         style={{ background: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl mx-auto mb-4"
-            style={{ background: 'var(--color-primary)' }}>P</div>
-          <h1 className="text-2xl font-black" style={{ color: 'var(--color-text)' }}>Prootech Admin</h1>
+          <div className="mb-5 flex justify-center"><BrandLogo /></div>
+          <h1 className="text-2xl font-black" style={{ color: 'var(--color-text)' }}>إدارة منصة Dentovi</h1>
           <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>تسجيل الدخول للوحة التحكم</p>
         </div>
 

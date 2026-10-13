@@ -1,0 +1,21 @@
+name: Dentovi fullstack build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install root without triggering postinstall twice
+        run: npm ci --ignore-scripts
+      - name: Build Express + React
+        run: npm run build
+      - name: Verify Vite output and Express syntax
+        run: |
+          npm run verify:build
+          node --check backend/src/index.js

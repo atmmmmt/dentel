@@ -10,7 +10,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const clinic = await Clinic.findOne({ slug }).select('+password');
     if (!clinic) return res.status(404).json({ success: false, message: 'العيادة غير موجودة' });
-    if (clinic.status === 'suspended') return res.status(403).json({ success: false, message: 'الحساب موقوف، تواصل مع Prootech' });
+    if (clinic.status !== 'active') return res.status(403).json({ success: false, message: 'الحساب غير نشط، تواصل مع Prootech' });
     const normalizedEmail = String(email || '').toLowerCase().trim();
     let actor;
     let token;

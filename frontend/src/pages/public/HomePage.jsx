@@ -9,7 +9,8 @@ export default function HomePage() {
   const { settings } = useApp();
 
   useEffect(() => {
-    document.title = settings?.metaTitle || 'نظام عيادة الأسنان الاحترافي | Prootech';
+    document.title = (settings?.metaTitle || 'Dentovi | منصة إدارة عيادات الأسنان')
+      .replace(/Prootech(?: Agency)?/gi, 'Dentovi');
     const desc = document.querySelector('meta[name="description"]');
     if (desc) desc.content = settings?.metaDescription || '';
   }, [settings]);

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const fs = require('node:fs');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -58,9 +59,19 @@ app.get('/api/product/health', (req, res) => res.json({ status: 'ok', time: new 
 
 // Serve frontend for custom clinic domains
 const FRONTEND_DIST = path.join(__dirname, '../../frontend/dist');
+const FRONTEND_INDEX = path.join(FRONTEND_DIST, 'index.html');
+if (!fs.existsSync(FRONTEND_INDEX)) {
+  console.error('[Dentovi] Missing frontend/dist/index.html. Deploy from repository root and run npm run build.');
+}
 app.use(express.static(FRONTEND_DIST));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
+  if (!fs.existsSync(FRONTEND_INDEX)) {
+    return res.status(503).json({
+      success: false,
+      message: 'Dentovi frontend build is missing. Set Root directory to . and redeploy with npm run build.',
+    });
+  }
+  return res.sendFile(FRONTEND_INDEX);
 });
 
 app.use(errorHandler);

@@ -1,10 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2D6BEB"/>
-      <stop offset="1" stop-color="#1A3A7C"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <path fill="#fff" d="M256 138c-40 0-58 20-92 20-24 0-40-14-56-14-22 0-38 20-38 62 0 50 18 92 34 138 10 30 20 66 38 66 16 0 20-30 32-56 8-18 20-30 30-30s22 12 30 30c12 26 16 56 32 56 18 0 28-36 38-66 16-46 34-88 34-138 0-42-16-62-38-62-16 0-32 14-56 14-34 0-52-20-92-20z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Dentovi app icon">
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0FB5A7"/><stop offset=".52" stop-color="#086C78"/><stop offset="1" stop-color="#0B2D4A"/></linearGradient><linearGradient id="d" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#34D3C5"/><stop offset="1" stop-color="#0B2D4A"/></linearGradient></defs>
+<rect width="512" height="512" rx="110" fill="url(#bg)"/>
+<path d="M126 92h113c112 0 188 68 188 164s-76 164-188 164H126c-16 0-26-11-26-26V118c0-16 10-26 26-26Z" fill="url(#d)"/>
+<path d="M195 175c-45-11-80 12-80 66 0 40 17 78 31 115 11 29 17 65 39 65 20 0 24-34 38-70 9-23 22-36 36-36s27 13 35 36c3 6 4 11 6 17 48-27 77-70 77-126 0-55-34-80-77-67-39 12-68 17-105 0Z" fill="#fff"/>
 </svg>
