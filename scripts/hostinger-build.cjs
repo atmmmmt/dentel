@@ -19,12 +19,12 @@ const run = (args, step) => {
 
 try {
   if (!exists('backend/node_modules/express/package.json')) {
-    run(['--prefix', 'backend', 'ci', '--omit=dev'], 'Install Express backend dependencies');
+    run(['--prefix', 'backend', 'ci', '--legacy-peer-deps', '--omit=dev'], 'Install Express backend dependencies');
   }
   if (!exists('frontend/node_modules/vite/bin/vite.js')) {
     // Vite lives in frontend/devDependencies. Production NODE_ENV is allowed,
     // because these are build-time dependencies only.
-    run(['--prefix', 'frontend', 'ci', '--include=dev'], 'Install React/Vite build dependencies');
+    run(['--prefix', 'frontend', 'ci', '--legacy-peer-deps', '--include=dev'], 'Install React/Vite build dependencies');
   }
   if (!exists('frontend/dist/index.html')) {
     run(['--prefix', 'frontend', 'run', 'build'], 'Build React frontend to frontend/dist');
